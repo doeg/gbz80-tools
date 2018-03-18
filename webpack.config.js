@@ -39,7 +39,7 @@ module.exports = {
     // Generate an index.html file in dist/ from the template.
     new HTMLWebpackPlugin({
       template: 'index.html',
-      title: 'Web Skeleton',
+      title: 'GB Z80 Tools',
     }),
   ],
 }
