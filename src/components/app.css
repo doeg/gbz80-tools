@@ -29,7 +29,7 @@ h1 {
 }
 
 .container {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   justify-content: center;
   flex-direction: row;

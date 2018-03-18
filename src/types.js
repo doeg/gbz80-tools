@@ -3,12 +3,27 @@
 export type AppState = {
   activeColor: Color,
   activePalette: Palette,
+  activeTile: string,
   tiles: Tile[],
 }
 
 export type ActiveColorSetAction = {
   payload: Color,
   type: 'ACTIVE_COLOR_SET',
+}
+
+export type ActiveTileSetAction = {
+  payload: {
+    name: string,
+  },
+  type: 'ACTIVE_TILE_SET',
+}
+
+export type TileCreatedAction = {
+  payload: {
+    tile: Tile,
+  },
+  type: 'TILE_CREATED',
 }
 
 export type Action = ActiveColorSetAction
