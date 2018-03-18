@@ -15,12 +15,12 @@ const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
 type Props = {
   activeColor: Color,
   height: number, // in pixels
-  isClicking: boolean,
   width: number, // in pixels
 }
 
 type State = {
   canvas: PixelGrid,
+  isClicking: boolean,
 }
 
 class Canvas extends React.Component<Props, State> {

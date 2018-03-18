@@ -6,17 +6,18 @@ import Canvas from './Canvas'
 import SelectPalette from './SelectPalette'
 import type { Color, Palette } from '../types'
 
-const PALETTE = ['#FFFFFF', '#999999', '#444444', '#000000']
+const PALETTE: Palette = ['#FFFFFF', '#999999', '#444444', '#000000']
 
 type Props = {}
 type State = {
   activeColor: Color,
-  acitvePalette: Palette,
+  activePalette: Palette,
 }
 
 class App extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
+
     this.state = {
       activeColor: 0,
       activePalette: PALETTE,
@@ -28,7 +29,7 @@ class App extends React.Component<Props, State> {
 
     const onClickColor = (color, idx) =>
       this.setState({
-        activeColor: idx,
+        activeColor: ((idx: any): Color),
       })
 
     return (

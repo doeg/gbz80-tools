@@ -3,7 +3,7 @@
 /*
  * An index into a Palette.
  */
-type Color = 0 | 1 | 2 | 3
+export type Color = 0 | 1 | 2 | 3
 
 /*
  * An array of four color strings.
@@ -13,7 +13,7 @@ type Color = 0 | 1 | 2 | 3
  *
  * Example: ['#000', '#444', '#8888', '#FFF']
  */
-type Palette = string[]
+export type Palette = string[]
 
 export type Coords = {
   x: number, // pixels

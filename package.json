@@ -23,7 +23,7 @@
   "scripts": {
     "lint": "eslint src/**/*",
     "start": "node server",
-    "test": "jest"
+    "test": "flow && jest"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
