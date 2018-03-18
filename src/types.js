@@ -1,5 +1,17 @@
 // @flow
 
+export type AppState = {
+  activeColor: Color,
+  activePalette: Palette,
+}
+
+export type ActiveColorSetAction = {
+  payload: Color,
+  type: 'ACTIVE_COLOR_SET',
+}
+
+export type Action = ActiveColorSetAction
+
 /*
  * An index into a Palette.
  */

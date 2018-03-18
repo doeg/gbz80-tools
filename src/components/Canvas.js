@@ -1,9 +1,10 @@
 // @flow
 /* eslint-disable */
 import * as React from 'react'
+import { connect } from 'react-redux'
 
 import style from './canvas.css'
-import type { Color, Coords, Pixel, PixelGrid } from '../types'
+import type { AppState, Color, Coords, Pixel, PixelGrid } from '../types'
 import * as pixelGrid from '../util/pixel-grid'
 import * as convert from '../util/convert'
 
@@ -12,11 +13,16 @@ const PALETTE = ['#FFFFFF', '#999999', '#444444', '#000000']
 const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
   canvas.map(row => row.map(({ color }) => color))
 
-type Props = {
-  activeColor: Color,
+type OwnProps = {
   height: number, // in pixels
   width: number, // in pixels
 }
+
+type MappedProps = {
+  activeColor: Color,
+}
+
+type Props = OwnProps & MappedProps
 
 type State = {
   canvas: PixelGrid,
@@ -113,4 +119,6 @@ class Canvas extends React.Component<Props, State> {
   }
 }
 
-export default Canvas
+const mapState = ({ activeColor }: AppState) => ({ activeColor })
+
+export default connect(mapState)(Canvas)
