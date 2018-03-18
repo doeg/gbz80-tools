@@ -32,5 +32,13 @@ h1 {
   align-items: center;
   display: flex;
   justify-content: center;
+  flex-direction: row;
+}
+
+.canvas {
+  align-items: center;
+  display: flex;
+  flex: 1 1 100%;
   flex-direction: column;
+  justify-content: center;
 }
