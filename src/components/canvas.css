@@ -1,5 +1,5 @@
 :root {
-  --pixelSize: 16px;
+  --pixelSize: 24px;
 }
 
 .canvas {
@@ -10,5 +10,6 @@
   border: solid 1px red;
   cursor: crosshair;
   height: var(--pixelSize);
+  text-align: center;
   width: var(--pixelSize);
 }
