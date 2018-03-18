@@ -1,13 +1,17 @@
 // @flow
+import cx from 'classnames'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './tilePanel.css'
+import PixelGrid from './PixelGrid'
 import { createTile, setActiveTile } from '../actions'
-import type { AppState, Tile } from '../types'
+import type { AppState, Palette, Tile } from '../types'
 import { makeEmptyGrid } from '../util/pixel-grid'
 
 type MappedProps = {
+  activePalette: Palette,
+  activeTile: ?string,
   tiles: Tile[],
 }
 
@@ -16,22 +20,41 @@ type DispatchProps = {
   setActiveTile: string => any,
 }
 
-const TilePanel = ({ tiles, ...props }: DispatchProps & MappedProps) => {
+const TilePanel = ({
+  activePalette,
+  activeTile,
+  tiles,
+  ...props
+}: DispatchProps & MappedProps) => {
   const onClickCreate = () =>
     props.createTile({
       grid: makeEmptyGrid({ height: 8, width: 8 }),
       name: `tile-${tiles.length}`,
     })
 
+  const renderTile = ({ grid, name }: Tile) => {
+    console.log(name, activeTile, name === activeTile)
+    const tileClass = cx({ [style.active]: name === activeTile })
+    console.log(name, activeTile, name === activeTile, tileClass)
+    return (
+      <li
+        className={tileClass}
+        key={name}
+        onClick={() => props.setActiveTile(name)}
+      >
+        <div className={style.gridContainer}>
+          <PixelGrid grid={grid} palette={activePalette} />
+        </div>
+        {name}
+      </li>
+    )
+  }
+
   return (
     <div className={style.panel}>
       <h2>Tiles</h2>
-      <ul>
-        {tiles.map(({ name }) =>
-          <li key={name} onClick={() => props.setActiveTile(name)}>
-            {name}
-          </li>
-        )}
+      <ul className={style.tileList}>
+        {tiles.map(renderTile)}
       </ul>
       <button onClick={onClickCreate} type="button">
         + New Tile
@@ -39,7 +62,12 @@ const TilePanel = ({ tiles, ...props }: DispatchProps & MappedProps) => {
     </div>
   )
 }
-const mapState = ({ activeTile, tiles }: AppState): MappedProps => ({
+const mapState = ({
+  activePalette,
+  activeTile,
+  tiles,
+}: AppState): MappedProps => ({
+  activePalette,
   activeTile,
   tiles,
 })
