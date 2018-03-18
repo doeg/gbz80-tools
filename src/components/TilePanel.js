@@ -26,16 +26,17 @@ const TilePanel = ({
   tiles,
   ...props
 }: DispatchProps & MappedProps) => {
-  const onClickCreate = () =>
-    props.createTile({
+  const onClickCreate = () => {
+    const createTileAction = props.createTile({
       grid: makeEmptyGrid({ height: 8, width: 8 }),
       name: `tile-${tiles.length}`,
     })
 
+    props.setActiveTile(createTileAction.payload.tile.name)
+  }
+
   const renderTile = ({ grid, name }: Tile) => {
-    console.log(name, activeTile, name === activeTile)
     const tileClass = cx({ [style.active]: name === activeTile })
-    console.log(name, activeTile, name === activeTile, tileClass)
     return (
       <li
         className={tileClass}

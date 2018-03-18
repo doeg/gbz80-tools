@@ -121,6 +121,9 @@ class Canvas extends React.Component<Props, State> {
             {rows}
           </tbody>
         </table>
+        <h3>
+          {activeTile.name}
+        </h3>
         <pre>
           {hex}
         </pre>

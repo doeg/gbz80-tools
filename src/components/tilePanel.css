@@ -28,7 +28,7 @@
 }
 
 .gridContainer {
-  border: solid 1px black;
+  border: solid 1px #aaa;
   display: inline-block;
   margin-right: 8px;
 }
