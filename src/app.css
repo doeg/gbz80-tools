@@ -1,16 +1,25 @@
 :root {
   --h1Color: blue;
-  --textColor: red;
+  --textColor: #454545;
 }
 
-* {
-  background: yellow !important;
+body {
+  font-family: var(--fontText);
+  font-weight: 400;
+}
+
+h1 {
+  font-family: var(--fontDisplay);
+  font-size: 40px;
+  font-weight: 700;
 }
 
 .app {
   color: var(--textColor) !important;
+}
 
-  h1 {
-    color: var(--h1Color) !important;
-  }
+.header {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }

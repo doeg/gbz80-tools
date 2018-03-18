@@ -14,8 +14,9 @@ class App extends React.Component<Props, State> {
   render() {
     return (
       <div className={style.app}>
-        <h1>Hello, world!</h1>
-        <p>Welcome to the web skeleton ^..^</p>
+        <header className={style.header}>
+          <h1>GameBoy Z80 Tools</h1>
+        </header>
       </div>
     )
   }
