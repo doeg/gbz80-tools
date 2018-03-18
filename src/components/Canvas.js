@@ -5,6 +5,8 @@ import style from './canvas.css'
 import type { Coords, Pixel, PixelGrid } from '../types'
 import * as pixelGrid from '../util/pixel-grid'
 
+const PALETTE = ['#FFFFFF', '#999999', '#444444', '#000000']
+
 type Props = {
   height: number, // in pixels
   width: number, // in pixels
@@ -39,13 +41,20 @@ class Canvas extends React.Component<Props, State> {
       const pixels = []
       for (let x = 0; x < width; x++) {
         const pixel = this.state.canvas[y][x]
+        const pixelStyle = {
+          backgroundColor: PALETTE[pixel.color],
+        }
+
         const onClick = () =>
           this.updatePixel({ x, y }, { color: pixel.color ? 0 : 1 })
 
         pixels.push(
-          <td className={style.pixel} key={`${y}-${x}`} onClick={onClick}>
-            {pixel.color}
-          </td>
+          <td
+            className={style.pixel}
+            key={`${y}-${x}`}
+            onClick={onClick}
+            style={pixelStyle}
+          />
         )
       }
 
