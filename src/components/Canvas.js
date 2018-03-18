@@ -9,14 +9,14 @@ type Props = {
 
 const Canvas = ({ height, width }: Props) => {
   const rows = []
-  for (let row = 0; row < height; row++) {
+  for (let y = 0; y < height; y++) {
     const pixels = []
-    for (let pixel = 0; pixel < width; pixel++) {
-      pixels.push(<td className={style.pixel} />)
+    for (let x = 0; x < width; x++) {
+      pixels.push(<td className={style.pixel} key={`${y}-${x}`} />)
     }
 
     rows.push(
-      <tr key={row}>
+      <tr key={y}>
         {pixels}
       </tr>
     )
