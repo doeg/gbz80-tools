@@ -1,4 +1,6 @@
 // @flow
+/* eslint-disable react/no-array-index-key */
+
 import * as React from 'react'
 
 import style from './pixelGrid.css'
@@ -12,11 +14,12 @@ type Props = {
 const PixelGrid = ({ grid, palette }: Props) =>
   <table className={style.grid}>
     <tbody>
-      {grid.map(row =>
-        <tr>
-          {row.map(({ color }) =>
+      {grid.map((row, rowIdx) =>
+        <tr key={rowIdx}>
+          {row.map(({ color }, pixelIdx) =>
             <td
               className={style.pixel}
+              key={`${rowIdx}-${pixelIdx}`}
               style={{ backgroundColor: palette[color] }}
             />
           )}
