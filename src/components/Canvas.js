@@ -5,8 +5,12 @@ import * as React from 'react'
 import style from './canvas.css'
 import type { Coords, Pixel, PixelGrid } from '../types'
 import * as pixelGrid from '../util/pixel-grid'
+import * as convert from '../util/convert'
 
 const PALETTE = ['#FFFFFF', '#999999', '#444444', '#000000']
+
+const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
+  canvas.map(row => row.map(({ color }) => color))
 
 type Props = {
   height: number, // in pixels
@@ -37,6 +41,12 @@ class Canvas extends React.Component<Props, State> {
 
   render() {
     const { height, width } = this.props
+
+    const hex = convert
+      .toHex(toColorGrid(this.state.canvas))
+      .map(h => `${h}`)
+      .join(' ')
+
     const rows = []
     for (let y = 0; y < height; y++) {
       const pixels = []
@@ -67,11 +77,16 @@ class Canvas extends React.Component<Props, State> {
     }
 
     return (
-      <table className={style.canvas}>
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
+      <div>
+        <table className={style.canvas}>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+        <pre>
+          {hex}
+        </pre>
+      </div>
     )
   }
 }
