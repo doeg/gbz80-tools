@@ -1,0 +1,14 @@
+:root {
+  --pixelSize: 16px;
+}
+
+.canvas {
+  border-collapse: collapse;
+}
+
+.canvas td {
+  border: solid 1px red;
+  cursor: crosshair;
+  height: var(--pixelSize);
+  width: var(--pixelSize);
+}

@@ -13,7 +13,10 @@ module.exports = {
         functions: 'ignore',
       },
     ],
+    'function-paren-newline': [0, 'never'],
+    'no-plusplus': [0, 'never'],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-wrap-multilines': [0, 'never'],
     semi: ['error', 'never'],
   },
 }
