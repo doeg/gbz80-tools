@@ -3,17 +3,35 @@ import * as React from 'react'
 
 import style from './app.css'
 import Canvas from './Canvas'
+import SelectPalette from './SelectPalette'
+import type { Color, Palette } from '../types'
+
+const PALETTE = ['#FFFFFF', '#999999', '#444444', '#000000']
 
 type Props = {}
-type State = {}
+type State = {
+  activeColor: Color,
+  acitvePalette: Palette,
+}
 
 class App extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
-    this.state = {}
+    this.state = {
+      activeColor: 0,
+      activePalette: PALETTE,
+    }
   }
 
   render() {
+    const { activePalette } = this.state
+    console.log(this.state.activeColor)
+
+    const onClickColor = (color, idx) =>
+      this.setState({
+        activeColor: idx,
+      })
+
     return (
       <div className={style.app}>
         <header className={style.header}>
@@ -21,6 +39,10 @@ class App extends React.Component<Props, State> {
         </header>
 
         <div className={style.container}>
+          <SelectPalette
+            activePalette={activePalette}
+            onClickColor={onClickColor}
+          />
           <Canvas height={8} width={8} />
         </div>
       </div>

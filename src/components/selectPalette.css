@@ -1,0 +1,8 @@
+.swatch {
+  cursor: crosshair;
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  width: 24px;
+}
