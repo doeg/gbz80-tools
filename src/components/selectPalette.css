@@ -1,3 +1,7 @@
+.palette {
+  margin: 24px;
+}
+
 .swatch {
   cursor: crosshair;
   display: inline-block;

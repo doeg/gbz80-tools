@@ -77,7 +77,7 @@ class Canvas extends React.Component<Props, State> {
     }
 
     return (
-      <div>
+      <div className={style.container}>
         <table className={style.canvas}>
           <tbody>
             {rows}
