@@ -43,7 +43,7 @@ class Canvas extends React.Component<Props, State> {
     ;(this: any).updatePixel = this.updatePixel.bind(this)
 
     const { height, width } = this.props
-    const canvas = pixelGrid.mkGrid({ height, width })
+    const canvas = pixelGrid.makeEmptyGrid({ height, width })
     this.state = {
       canvas,
       isClicking: false,

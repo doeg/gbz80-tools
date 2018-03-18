@@ -3,6 +3,7 @@
 export type AppState = {
   activeColor: Color,
   activePalette: Palette,
+  tiles: Tile[],
 }
 
 export type ActiveColorSetAction = {
@@ -37,3 +38,8 @@ export type Pixel = {
 }
 
 export type PixelGrid = Array<Array<Pixel>>
+
+export type Tile = {
+  grid: PixelGrid,
+  name: string,
+}
