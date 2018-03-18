@@ -1,22 +1,34 @@
 // @flow
 /* eslint-disable */
 import * as React from 'react'
+import { connect } from 'react-redux'
 
 import style from './canvas.css'
-import type { Color, Coords, Pixel, PixelGrid } from '../types'
+import type {
+  AppState,
+  Color,
+  Coords,
+  Palette,
+  Pixel,
+  PixelGrid,
+} from '../types'
 import * as pixelGrid from '../util/pixel-grid'
 import * as convert from '../util/convert'
-
-const PALETTE = ['#FFFFFF', '#999999', '#444444', '#000000']
 
 const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
   canvas.map(row => row.map(({ color }) => color))
 
-type Props = {
-  activeColor: Color,
+type OwnProps = {
   height: number, // in pixels
   width: number, // in pixels
 }
+
+type MappedProps = {
+  activeColor: Color,
+  activePalette: Palette,
+}
+
+type Props = OwnProps & MappedProps
 
 type State = {
   canvas: PixelGrid,
@@ -49,7 +61,7 @@ class Canvas extends React.Component<Props, State> {
   }
 
   render() {
-    const { activeColor, height, width } = this.props
+    const { activeColor, activePalette, height, width } = this.props
 
     const hex = convert
       .toHex(toColorGrid(this.state.canvas))
@@ -62,7 +74,7 @@ class Canvas extends React.Component<Props, State> {
       for (let x = 0; x < width; x++) {
         const pixel = this.state.canvas[y][x]
         const pixelStyle = {
-          backgroundColor: PALETTE[pixel.color],
+          backgroundColor: activePalette[pixel.color],
         }
 
         const update = () => this.updatePixel({ x, y })
@@ -113,4 +125,9 @@ class Canvas extends React.Component<Props, State> {
   }
 }
 
-export default Canvas
+const mapState = ({ activeColor, activePalette }: AppState) => ({
+  activeColor,
+  activePalette,
+})
+
+export default connect(mapState)(Canvas)

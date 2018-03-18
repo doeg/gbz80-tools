@@ -15,6 +15,7 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': [0, 'never'],
     'no-bitwise': [0, 'never'],
     'no-plusplus': [0, 'never'],
+    'no-use-before-define': [0, 'never'],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/jsx-wrap-multilines': [0, 'never'],
     semi: ['error', 'never'],
