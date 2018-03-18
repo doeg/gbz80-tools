@@ -30,6 +30,7 @@
     "babel-env": "^2.4.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-flow": "^6.23.0",
+    "classnames": "^2.2.5",
     "css-loader": "^0.28.9",
     "express": "^4.16.2",
     "flow-bin": "^0.63.1",

@@ -1,27 +1,37 @@
 // @flow
-
+import cx from 'classnames'
 import * as React from 'react'
 
 import style from './selectPalette.css'
-import type { Palette } from '../types'
+import type { Color, Palette } from '../types'
 
 type Props = {
+  activeColor: Color,
   activePalette: Palette,
   onClickColor: (color: string, idx: number) => any,
 }
 
-const SelectPalette = ({ activePalette, onClickColor }: Props) =>
-  <div className={style.palette}>
-    {activePalette.map((color, idx) =>
+const SelectPalette = ({ activeColor, activePalette, onClickColor }: Props) => {
+  const renderSwatch = (color, idx) => {
+    const swatchClass = cx(style.swatch, {
+      [style.active]: activeColor === idx,
+    })
+    return (
       <div
-        className={style.swatch}
+        className={swatchClass}
         key={color}
         onClick={() => onClickColor(color, idx)}
         style={{ backgroundColor: color }}
       >
         {idx}
       </div>
-    )}
-  </div>
+    )
+  }
 
+  return (
+    <div className={style.palette}>
+      {activePalette.map(renderSwatch)}
+    </div>
+  )
+}
 export default SelectPalette

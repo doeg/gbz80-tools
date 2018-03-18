@@ -39,6 +39,7 @@ class App extends React.Component<Props, State> {
 
         <div className={style.container}>
           <SelectPalette
+            activeColor={activeColor}
             activePalette={activePalette}
             onClickColor={onClickColor}
           />
