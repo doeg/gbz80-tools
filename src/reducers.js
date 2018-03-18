@@ -7,6 +7,7 @@ import type {
   ActiveTileSetAction,
   AppState,
   TileCreatedAction,
+  TileUpdatedAction,
 } from './types'
 
 const makeDefaultState = (): AppState => {
@@ -33,6 +34,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return setActiveTile(state, action)
     case 'TILE_CREATED':
       return createTile(state, action)
+    case 'TILE_UPDATED':
+      return updateTile(state, action)
     default:
       return state
   }
@@ -52,5 +55,23 @@ const setActiveTile = (
   state: AppState,
   { payload: { name } }: ActiveTileSetAction
 ): AppState => update(state, { activeTile: { $set: name } })
+
+const updateTile = (
+  state: AppState,
+  { payload: { tile } }: TileUpdatedAction
+): AppState => {
+  const tileIndex = state.tiles.findIndex(({ name }) => name === tile.name)
+
+  // no-nop
+  if (tileIndex < 0) {
+    return state
+  }
+
+  return update(state, {
+    tiles: {
+      [tileIndex]: { $set: tile },
+    },
+  })
+}
 
 export default rootReducer

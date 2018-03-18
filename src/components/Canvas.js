@@ -1,9 +1,12 @@
 // @flow
 /* eslint-disable */
+import cloneDeep from 'lodash/cloneDeep'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './canvas.css'
+import { updateTile } from '../actions'
+import { getActiveTile } from '../selectors'
 import type {
   AppState,
   Color,
@@ -11,6 +14,7 @@ import type {
   Palette,
   Pixel,
   PixelGrid,
+  Tile,
 } from '../types'
 import * as pixelGrid from '../util/pixel-grid'
 import * as convert from '../util/convert'
@@ -26,45 +30,45 @@ type OwnProps = {
 type MappedProps = {
   activeColor: Color,
   activePalette: Palette,
+  activeTile: Tile,
 }
 
-type Props = OwnProps & MappedProps
+type DispatchProps = {
+  updateTile: Tile => any,
+}
+
+type Props = OwnProps & MappedProps & DispatchProps
 
 type State = {
-  canvas: PixelGrid,
   isClicking: boolean,
 }
 
 class Canvas extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
-
     // eslint-disable-next-line semi-style
     ;(this: any).updatePixel = this.updatePixel.bind(this)
 
-    const { height, width } = this.props
-    const canvas = pixelGrid.makeEmptyGrid({ height, width })
     this.state = {
-      canvas,
       isClicking: false,
     }
   }
 
   updatePixel({ x, y }: Coords) {
     const { activeColor } = this.props
-    const { canvas } = this.state
-    canvas[y][x] = {
-      ...canvas[y][x],
+    const activeTile = cloneDeep(this.props.activeTile)
+    activeTile.grid[y][x] = {
+      ...activeTile.grid[y][x],
       color: activeColor,
     }
-    this.setState({ canvas })
+    this.props.updateTile(activeTile)
   }
 
   render() {
-    const { activeColor, activePalette, height, width } = this.props
+    const { activeColor, activePalette, activeTile, height, width } = this.props
 
     const hex = convert
-      .toHex(toColorGrid(this.state.canvas))
+      .toHex(toColorGrid(activeTile.grid))
       .map(h => `${h}`)
       .join(' ')
 
@@ -72,7 +76,7 @@ class Canvas extends React.Component<Props, State> {
     for (let y = 0; y < height; y++) {
       const pixels = []
       for (let x = 0; x < width; x++) {
-        const pixel = this.state.canvas[y][x]
+        const pixel = activeTile.grid[y][x]
         const pixelStyle = {
           backgroundColor: activePalette[pixel.color],
         }
@@ -125,9 +129,14 @@ class Canvas extends React.Component<Props, State> {
   }
 }
 
-const mapState = ({ activeColor, activePalette }: AppState) => ({
-  activeColor,
-  activePalette,
+const mapState = (state: AppState) => ({
+  activeColor: state.activeColor,
+  activePalette: state.activePalette,
+  activeTile: getActiveTile(state),
 })
 
-export default connect(mapState)(Canvas)
+const mapDispatch: DispatchProps = {
+  updateTile,
+}
+
+export default connect(mapState, mapDispatch)(Canvas)

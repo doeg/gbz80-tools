@@ -17,7 +17,6 @@ type DispatchProps = {
 }
 
 const TilePanel = ({ tiles, ...props }: DispatchProps & MappedProps) => {
-  console.log(props)
   const onClickCreate = () =>
     props.createTile({
       grid: makeEmptyGrid({ height: 8, width: 8 }),

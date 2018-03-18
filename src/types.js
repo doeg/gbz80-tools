@@ -26,6 +26,13 @@ export type TileCreatedAction = {
   type: 'TILE_CREATED',
 }
 
+export type TileUpdatedAction = {
+  payload: {
+    tile: Tile,
+  },
+  type: 'TILE_UPDATED',
+}
+
 export type Action = ActiveColorSetAction
 
 /*
