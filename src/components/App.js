@@ -24,8 +24,7 @@ class App extends React.Component<Props, State> {
   }
 
   render() {
-    const { activePalette } = this.state
-    console.log(this.state.activeColor)
+    const { activeColor, activePalette } = this.state
 
     const onClickColor = (color, idx) =>
       this.setState({
@@ -43,7 +42,7 @@ class App extends React.Component<Props, State> {
             activePalette={activePalette}
             onClickColor={onClickColor}
           />
-          <Canvas height={8} width={8} />
+          <Canvas activeColor={activeColor} height={8} width={8} />
         </div>
       </div>
     )

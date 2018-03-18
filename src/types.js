@@ -1,5 +1,8 @@
 // @flow
 
+/*
+ * An index into a Palette.
+ */
 type Color = 0 | 1 | 2 | 3
 
 /*

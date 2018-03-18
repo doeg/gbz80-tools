@@ -3,7 +3,7 @@
 import * as React from 'react'
 
 import style from './canvas.css'
-import type { Coords, Pixel, PixelGrid } from '../types'
+import type { Color, Coords, Pixel, PixelGrid } from '../types'
 import * as pixelGrid from '../util/pixel-grid'
 import * as convert from '../util/convert'
 
@@ -13,6 +13,7 @@ const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
   canvas.map(row => row.map(({ color }) => color))
 
 type Props = {
+  activeColor: Color,
   height: number, // in pixels
   width: number, // in pixels
 }
@@ -40,7 +41,7 @@ class Canvas extends React.Component<Props, State> {
   }
 
   render() {
-    const { height, width } = this.props
+    const { activeColor, height, width } = this.props
 
     const hex = convert
       .toHex(toColorGrid(this.state.canvas))
@@ -56,8 +57,7 @@ class Canvas extends React.Component<Props, State> {
           backgroundColor: PALETTE[pixel.color],
         }
 
-        const onClick = () =>
-          this.updatePixel({ x, y }, { color: pixel.color ? 0 : 1 })
+        const onClick = () => this.updatePixel({ x, y }, { color: activeColor })
 
         pixels.push(
           <td
