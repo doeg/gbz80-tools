@@ -1,4 +1,4 @@
-import to2BPP from './to2BPP'
+import * as convert from './convert'
 
 describe('to2BPP', () => {
   it('converts a tile to a 2BPP array pair', () => {
@@ -24,7 +24,7 @@ describe('to2BPP', () => {
       [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
     ]
 
-    const result = to2BPP(tile)
+    const result = convert.to2BPP(tile)
     result.forEach((row, idx) => {
       expect(row).toEqual(expected[idx])
     })

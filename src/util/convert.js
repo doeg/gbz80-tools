@@ -10,5 +10,5 @@ const rowTo2BPP = (row: number[]): Array<Array<number>> => {
   return [byte0, byte1]
 }
 
-export default (tile: Array<Array<number>>): Array<Array<number>> =>
+export const to2BPP = (tile: Array<Array<number>>): Array<Array<number>> =>
   tile.map(row => rowTo2BPP(row))
