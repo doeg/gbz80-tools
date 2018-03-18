@@ -1,3 +1,9 @@
 {
-  "presets": ["env", ["es2015", { "modules": false }], "flow", "react"]
+  "presets": [
+    "env",
+    ["es2015", { "modules": false }],
+    "flow",
+    "react",
+    "stage-3"
+  ]
 }
