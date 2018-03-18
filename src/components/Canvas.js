@@ -3,7 +3,7 @@
 import * as React from 'react'
 
 import style from './canvas.css'
-import type { Coords, Pixel, PixelGrid } from '../types'
+import type { Color, Coords, Pixel, PixelGrid } from '../types'
 import * as pixelGrid from '../util/pixel-grid'
 import * as convert from '../util/convert'
 
@@ -13,12 +13,14 @@ const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
   canvas.map(row => row.map(({ color }) => color))
 
 type Props = {
+  activeColor: Color,
   height: number, // in pixels
   width: number, // in pixels
 }
 
 type State = {
   canvas: PixelGrid,
+  isClicking: boolean,
 }
 
 class Canvas extends React.Component<Props, State> {
@@ -30,17 +32,24 @@ class Canvas extends React.Component<Props, State> {
 
     const { height, width } = this.props
     const canvas = pixelGrid.mkGrid({ height, width })
-    this.state = { canvas }
+    this.state = {
+      canvas,
+      isClicking: false,
+    }
   }
 
-  updatePixel({ x, y }: Coords, pixel: Pixel) {
+  updatePixel({ x, y }: Coords) {
+    const { activeColor } = this.props
     const { canvas } = this.state
-    canvas[y][x] = pixel
+    canvas[y][x] = {
+      ...canvas[y][x],
+      color: activeColor,
+    }
     this.setState({ canvas })
   }
 
   render() {
-    const { height, width } = this.props
+    const { activeColor, height, width } = this.props
 
     const hex = convert
       .toHex(toColorGrid(this.state.canvas))
@@ -56,14 +65,20 @@ class Canvas extends React.Component<Props, State> {
           backgroundColor: PALETTE[pixel.color],
         }
 
-        const onClick = () =>
-          this.updatePixel({ x, y }, { color: pixel.color ? 0 : 1 })
+        const update = () => this.updatePixel({ x, y })
+
+        const onMouseEnter = () => {
+          if (this.state.isClicking) {
+            update()
+          }
+        }
 
         pixels.push(
           <td
             className={style.pixel}
             key={`${y}-${x}`}
-            onClick={onClick}
+            onClick={update}
+            onMouseEnter={onMouseEnter}
             style={pixelStyle}
           />
         )
@@ -76,9 +91,16 @@ class Canvas extends React.Component<Props, State> {
       )
     }
 
+    const onMouseDown = () => this.setState({ isClicking: true })
+    const onMouseUp = () => this.setState({ isClicking: false })
+
     return (
-      <div>
-        <table className={style.canvas}>
+      <div className={style.container}>
+        <table
+          className={style.canvas}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+        >
           <tbody>
             {rows}
           </tbody>

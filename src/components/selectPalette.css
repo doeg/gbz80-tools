@@ -1,0 +1,17 @@
+.palette {
+  margin: 24px;
+}
+
+.swatch {
+  border: solid 1px transparent;
+  cursor: crosshair;
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  width: 24px;
+
+  &.active {
+    border: solid 1px fuchsia;
+  }
+}

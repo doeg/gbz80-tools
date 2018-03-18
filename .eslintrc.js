@@ -12,6 +12,7 @@ module.exports = {
     'import/prefer-default-export': [0, 'never'],
     'jsx-a11y/click-events-have-key-events': [0, 'never'],
     'jsx-a11y/no-noninteractive-element-interactions': [0, 'never'],
+    'jsx-a11y/no-static-element-interactions': [0, 'never'],
     'no-bitwise': [0, 'never'],
     'no-plusplus': [0, 'never'],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
