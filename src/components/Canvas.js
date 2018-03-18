@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable */
 import * as React from 'react'
 
 import style from './canvas.css'
