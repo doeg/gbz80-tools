@@ -32,3 +32,7 @@
   display: inline-block;
   margin-right: 8px;
 }
+
+.active .gridContainer {
+  border-color: fuchsia;
+}
