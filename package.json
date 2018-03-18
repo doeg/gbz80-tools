@@ -35,7 +35,7 @@
     "postcss-discard-comments": "^2.0.4",
     "postcss-loader": "^2.0.10",
     "postcss-nested": "^3.0.0",
-    "react": "^16.2.0",
+    "react": "next",
     "react-dom": "^16.2.0",
     "style-loader": "^0.19.1",
     "webpack-dev-middleware": "^2.0.4"

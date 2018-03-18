@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './App'
+import App from './components/App'
 
 const render = Component => {
   const root = document.getElementById('root')
@@ -17,7 +17,7 @@ render(App)
 // See https://github.com/gaearon/react-hot-loader#getting-started
 if (module.hot) {
   // eslint-disable-next-line no-extra-semi
-  ;(module.hot: any).accept('./App', () => {
+  ;(module.hot: any).accept('./components/App', () => {
     render(App)
   })
 }
