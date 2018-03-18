@@ -3,6 +3,10 @@
   --textColor: #454545;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: var(--fontText);
   font-weight: 400;
@@ -19,6 +23,12 @@ h1 {
 }
 
 .header {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
   align-items: center;
   display: flex;
   justify-content: center;

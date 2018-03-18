@@ -2,7 +2,7 @@
 import * as React from 'react'
 
 import style from './app.css'
-import Canvas from './canvas/Canvas'
+import Canvas from './Canvas'
 
 type Props = {}
 type State = {}

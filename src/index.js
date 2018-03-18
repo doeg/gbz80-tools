@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './App'
+import App from './components/App'
 
 const render = Component => {
   const root = document.getElementById('root')

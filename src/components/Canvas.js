@@ -12,11 +12,7 @@ const Canvas = ({ height, width }: Props) => {
   for (let row = 0; row < height; row++) {
     const pixels = []
     for (let pixel = 0; pixel < width; pixel++) {
-      pixels.push(
-        <td className={style.pixel}>
-          {pixel}
-        </td>
-      )
+      pixels.push(<td className={style.pixel} />)
     }
 
     rows.push(
