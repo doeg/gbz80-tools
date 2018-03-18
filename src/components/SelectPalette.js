@@ -8,19 +8,16 @@ import style from './selectPalette.css'
 import { setActiveColor } from '../actions'
 import type { AppState, Color, Palette } from '../types'
 
-type OwnProps = {
-  activePalette: Palette,
-}
-
 type MappedProps = {
   activeColor: Color,
+  activePalette: Palette,
 }
 
 type DispatchProps = {
   setActiveColor: Color => any,
 }
 
-type Props = OwnProps & MappedProps & DispatchProps
+type Props = DispatchProps & MappedProps
 
 const SelectPalette = ({ activeColor, activePalette, ...props }: Props) => {
   const renderSwatch = (color, idx) => {
@@ -28,7 +25,7 @@ const SelectPalette = ({ activeColor, activePalette, ...props }: Props) => {
       [style.active]: activeColor === idx,
     })
 
-    const onClick = () => props.setActiveColor(idx)
+    const onClick = () => props.setActiveColor(((idx: any): Color))
 
     return (
       <div
@@ -49,8 +46,9 @@ const SelectPalette = ({ activeColor, activePalette, ...props }: Props) => {
   )
 }
 
-const mapState = ({ activeColor }: AppState): MappedProps => ({
+const mapState = ({ activeColor, activePalette }: AppState): MappedProps => ({
   activeColor,
+  activePalette,
 })
 
 const mapDispatch: DispatchProps = {

@@ -3,7 +3,7 @@ import update from 'immutability-helper'
 import type { Action, ActiveColorSetAction, AppState } from './types'
 
 const makeDefaultState = () => ({
-  activeColor: 0,
+  activeColor: 3,
   activePalette: ['#FFFFFF', '#999999', '#444444', '#000000'],
 })
 
