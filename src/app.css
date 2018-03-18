@@ -1,0 +1,16 @@
+:root {
+  --h1Color: blue;
+  --textColor: red;
+}
+
+* {
+  background: yellow !important;
+}
+
+.app {
+  color: var(--textColor) !important;
+
+  h1 {
+    color: var(--h1Color) !important;
+  }
+}
