@@ -19,6 +19,13 @@ export type ActiveTileSetAction = {
   type: 'ACTIVE_TILE_SET',
 }
 
+export type TileClearedAction = {
+  payload: {
+    name: string,
+  },
+  type: 'TILE_CLEARED',
+}
+
 export type TileCreatedAction = {
   payload: {
     tile: Tile,

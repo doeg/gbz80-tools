@@ -5,6 +5,7 @@ import type {
   ActiveTileSetAction,
   Color,
   Tile,
+  TileClearedAction,
   TileCreatedAction,
   TileUpdatedAction,
 } from './types'
@@ -19,6 +20,11 @@ export const setActiveTile = (tileName: string): ActiveTileSetAction => ({
     name: tileName,
   },
   type: 'ACTIVE_TILE_SET',
+})
+
+export const clearTile = (name: string): TileClearedAction => ({
+  payload: { name },
+  type: 'TILE_CLEARED',
 })
 
 export const createTile = (tile: Tile): TileCreatedAction => ({

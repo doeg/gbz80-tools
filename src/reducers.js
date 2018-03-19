@@ -6,6 +6,7 @@ import type {
   ActiveColorSetAction,
   ActiveTileSetAction,
   AppState,
+  TileClearedAction,
   TileCreatedAction,
   TileUpdatedAction,
 } from './types'
@@ -32,6 +33,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return setActiveColor(state, action)
     case 'ACTIVE_TILE_SET':
       return setActiveTile(state, action)
+    case 'TILE_CLEARED':
+      return clearTile(state, action)
     case 'TILE_CREATED':
       return createTile(state, action)
     case 'TILE_UPDATED':
@@ -40,6 +43,21 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return state
   }
 }
+
+const clearTile = (
+  state: AppState,
+  { payload: { name } }: TileClearedAction
+): AppState =>
+  // FIXME this is janky
+  updateTile(state, {
+    payload: {
+      tile: {
+        name,
+        grid: makeEmptyGrid({ height: 8, width: 8 }),
+      },
+    },
+    type: 'TILE_UPDATED',
+  })
 
 const createTile = (
   state: AppState,
