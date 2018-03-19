@@ -5,6 +5,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './canvas.css'
+import PixelGrid from './PixelGrid'
 import { updateTile } from '../actions'
 import { getActiveTile } from '../selectors'
 import type {
@@ -13,13 +14,15 @@ import type {
   Coords,
   Palette,
   Pixel,
-  PixelGrid,
+  PixelGrid as PixelGridType,
   Tile,
 } from '../types'
 import * as pixelGrid from '../util/pixel-grid'
 import * as convert from '../util/convert'
 
+// $FlowFixMe
 const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
+  // $FlowFixMe
   canvas.map(row => row.map(({ color }) => color))
 
 type OwnProps = {
@@ -72,55 +75,25 @@ class Canvas extends React.Component<Props, State> {
       .map(h => `${h}`)
       .join(' ')
 
-    const rows = []
-    for (let y = 0; y < height; y++) {
-      const pixels = []
-      for (let x = 0; x < width; x++) {
-        const pixel = activeTile.grid[y][x]
-        const pixelStyle = {
-          backgroundColor: activePalette[pixel.color],
-        }
-
-        const update = () => this.updatePixel({ x, y })
-
-        const onMouseEnter = () => {
-          if (this.state.isClicking) {
-            update()
-          }
-        }
-
-        pixels.push(
-          <td
-            className={style.pixel}
-            key={`${y}-${x}`}
-            onClick={update}
-            onMouseEnter={onMouseEnter}
-            style={pixelStyle}
-          />
-        )
-      }
-
-      rows.push(
-        <tr key={y}>
-          {pixels}
-        </tr>
-      )
-    }
-
     const onMouseDown = () => this.setState({ isClicking: true })
     const onMouseUp = () => this.setState({ isClicking: false })
+    const onMouseEnterPixel = (coords: Coords) => {
+      if (this.state.isClicking) {
+        this.updatePixel(coords)
+      }
+    }
 
     return (
       <div className={style.container}>
-        <table
+        <PixelGrid
           className={style.canvas}
+          grid={activeTile.grid}
+          onClickPixel={this.updatePixel}
           onMouseDown={onMouseDown}
+          onMouseEnterPixel={onMouseEnterPixel}
           onMouseUp={onMouseUp}
-        >
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
+          palette={activePalette}
+        />
         <h3>
           {activeTile.name}
         </h3>
