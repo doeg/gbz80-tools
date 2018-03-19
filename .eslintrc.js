@@ -18,6 +18,8 @@ module.exports = {
     'no-use-before-define': [0, 'never'],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/jsx-wrap-multilines': [0, 'never'],
+    // A nice idea, but doesn't seem to work with `{...props}: Props` pattern
+    'react/no-unused-prop-types': [0, 'never'],
     semi: ['error', 'never'],
   },
 }

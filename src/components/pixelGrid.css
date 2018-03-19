@@ -1,0 +1,8 @@
+.grid {
+  border-collapse: collapse;
+}
+
+.pixel {
+  height: 4px;
+  width: 4px;
+}

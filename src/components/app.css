@@ -29,8 +29,24 @@ h1 {
 }
 
 .container {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   justify-content: center;
+  flex-direction: row;
+  margin: 0 auto;
+  max-width: 960px;
+}
+
+.canvas {
+  align-items: center;
+  display: flex;
+  flex: 1 1 100%;
   flex-direction: column;
+  justify-content: center;
+}
+
+.controls {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }

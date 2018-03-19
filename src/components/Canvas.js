@@ -1,21 +1,28 @@
 // @flow
 /* eslint-disable */
+import cloneDeep from 'lodash/cloneDeep'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './canvas.css'
+import PixelGrid from './PixelGrid'
+import { updateTile } from '../actions'
+import { getActiveTile } from '../selectors'
 import type {
   AppState,
   Color,
   Coords,
   Palette,
   Pixel,
-  PixelGrid,
+  PixelGrid as PixelGridType,
+  Tile,
 } from '../types'
 import * as pixelGrid from '../util/pixel-grid'
 import * as convert from '../util/convert'
 
+// $FlowFixMe
 const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
+  // $FlowFixMe
   canvas.map(row => row.map(({ color }) => color))
 
 type OwnProps = {
@@ -26,97 +33,70 @@ type OwnProps = {
 type MappedProps = {
   activeColor: Color,
   activePalette: Palette,
+  activeTile: Tile,
 }
 
-type Props = OwnProps & MappedProps
+type DispatchProps = {
+  updateTile: Tile => any,
+}
+
+type Props = OwnProps & MappedProps & DispatchProps
 
 type State = {
-  canvas: PixelGrid,
   isClicking: boolean,
 }
 
 class Canvas extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
-
     // eslint-disable-next-line semi-style
     ;(this: any).updatePixel = this.updatePixel.bind(this)
 
-    const { height, width } = this.props
-    const canvas = pixelGrid.mkGrid({ height, width })
     this.state = {
-      canvas,
       isClicking: false,
     }
   }
 
   updatePixel({ x, y }: Coords) {
     const { activeColor } = this.props
-    const { canvas } = this.state
-    canvas[y][x] = {
-      ...canvas[y][x],
+    const activeTile = cloneDeep(this.props.activeTile)
+    activeTile.grid[y][x] = {
+      ...activeTile.grid[y][x],
       color: activeColor,
     }
-    this.setState({ canvas })
+    this.props.updateTile(activeTile)
   }
 
   render() {
-    const { activeColor, activePalette, height, width } = this.props
+    const { activeColor, activePalette, activeTile, height, width } = this.props
 
     const hex = convert
-      .toHex(toColorGrid(this.state.canvas))
+      .toHex(toColorGrid(activeTile.grid))
       .map(h => `${h}`)
       .join(' ')
 
-    const rows = []
-    for (let y = 0; y < height; y++) {
-      const pixels = []
-      for (let x = 0; x < width; x++) {
-        const pixel = this.state.canvas[y][x]
-        const pixelStyle = {
-          backgroundColor: activePalette[pixel.color],
-        }
-
-        const update = () => this.updatePixel({ x, y })
-
-        const onMouseEnter = () => {
-          if (this.state.isClicking) {
-            update()
-          }
-        }
-
-        pixels.push(
-          <td
-            className={style.pixel}
-            key={`${y}-${x}`}
-            onClick={update}
-            onMouseEnter={onMouseEnter}
-            style={pixelStyle}
-          />
-        )
-      }
-
-      rows.push(
-        <tr key={y}>
-          {pixels}
-        </tr>
-      )
-    }
-
     const onMouseDown = () => this.setState({ isClicking: true })
     const onMouseUp = () => this.setState({ isClicking: false })
+    const onMouseEnterPixel = (coords: Coords) => {
+      if (this.state.isClicking) {
+        this.updatePixel(coords)
+      }
+    }
 
     return (
       <div className={style.container}>
-        <table
+        <PixelGrid
           className={style.canvas}
+          grid={activeTile.grid}
+          onClickPixel={this.updatePixel}
           onMouseDown={onMouseDown}
+          onMouseEnterPixel={onMouseEnterPixel}
           onMouseUp={onMouseUp}
-        >
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
+          palette={activePalette}
+        />
+        <h3>
+          {activeTile.name}
+        </h3>
         <pre>
           {hex}
         </pre>
@@ -125,9 +105,14 @@ class Canvas extends React.Component<Props, State> {
   }
 }
 
-const mapState = ({ activeColor, activePalette }: AppState) => ({
-  activeColor,
-  activePalette,
+const mapState = (state: AppState) => ({
+  activeColor: state.activeColor,
+  activePalette: state.activePalette,
+  activeTile: getActiveTile(state),
 })
 
-export default connect(mapState)(Canvas)
+const mapDispatch: DispatchProps = {
+  updateTile,
+}
+
+export default connect(mapState, mapDispatch)(Canvas)
