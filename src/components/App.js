@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import style from './app.css'
 import Canvas from './Canvas'
+import Panel from './Panel'
 import SelectPalette from './SelectPalette'
 import TilePanel from './TilePanel'
 import { clearTile } from '../actions'
@@ -30,19 +31,21 @@ const App = (props: Props) => {
       </header>
 
       <div className={style.container}>
-        <TilePanel />
-
-        <div className={style.canvas}>
-          <div className={style.controls}>
-            <SelectPalette />
-            <div>
-              <button onClick={onClear} type="button">
-                Clear
-              </button>
+        <Panel>
+          <div className={style.canvas}>
+            <div className={style.controls}>
+              <SelectPalette />
+              <div>
+                <button onClick={onClear} type="button">
+                  Clear
+                </button>
+              </div>
             </div>
+            <Canvas height={8} width={8} />
           </div>
-          <Canvas height={8} width={8} />
-        </div>
+        </Panel>
+
+        <TilePanel />
       </div>
     </div>
   )

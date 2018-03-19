@@ -1,12 +1,7 @@
-.panel {
-  border: solid 1px black;
-  padding: 24px;
-  width: 320px;
-}
-
 .tileList {
   list-style-type: none;
   margin: 0 0 16px 0;
+  width: 200px;
   padding: 0;
 }
 
@@ -17,6 +12,7 @@
   display: flex;
   justify-content: flex-start;
   padding: 4px;
+  white-space: nowrap;
 
   &:hover {
     border-color: fuchsia;

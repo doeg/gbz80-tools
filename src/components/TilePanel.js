@@ -4,6 +4,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './tilePanel.css'
+import Panel from './Panel'
 import PixelGrid from './PixelGrid'
 import { createTile, setActiveTile } from '../actions'
 import type { AppState, Palette, Tile } from '../types'
@@ -52,7 +53,7 @@ const TilePanel = ({
   }
 
   return (
-    <div className={style.panel}>
+    <Panel>
       <h2>Tiles</h2>
       <ul className={style.tileList}>
         {tiles.map(renderTile)}
@@ -60,7 +61,7 @@ const TilePanel = ({
       <button onClick={onClickCreate} type="button">
         + New Tile
       </button>
-    </div>
+    </Panel>
   )
 }
 const mapState = ({
