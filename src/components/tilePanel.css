@@ -26,9 +26,14 @@
 .gridContainer {
   border: solid 1px #aaa;
   display: inline-block;
+  flex: none;
   margin-right: 8px;
 }
 
 .active .gridContainer {
   border-color: fuchsia;
+}
+
+.tileName {
+  flex: 1 1 100%;
 }

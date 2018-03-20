@@ -9,6 +9,7 @@ import type {
   AppState,
   TileClearedAction,
   TileCreatedAction,
+  TileDeletedAction,
   TileUpdatedAction,
 } from './types'
 
@@ -34,6 +35,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return clearTile(state, action)
     case 'TILE_CREATED':
       return createTile(state, action)
+    case 'TILE_DELETED':
+      return deleteTile(state, action)
     case 'TILE_UPDATED':
       return updateTile(state, action)
     default:
@@ -60,6 +63,20 @@ const createTile = (
   state: AppState,
   { payload: { tile } }: TileCreatedAction,
 ): AppState => update(state, { tiles: { $push: [tile] } })
+
+const deleteTile = (
+  state: AppState,
+  { payload: { id } }: TileDeletedAction,
+): AppState => {
+  const tileIndex = state.tiles.findIndex(tile => id === tile.id)
+  if (tileIndex < 0) {
+    return state
+  }
+
+  return update(state, {
+    tiles: { $splice: [[tileIndex, 1]] },
+  })
+}
 
 const setActiveColor = (
   state: AppState,

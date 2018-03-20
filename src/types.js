@@ -35,6 +35,13 @@ export type TileCreatedAction = {
   type: 'TILE_CREATED',
 }
 
+export type TileDeletedAction = {
+  payload: {
+    id: UUID,
+  },
+  type: 'TILE_DELETED',
+}
+
 export type TileUpdatedAction = {
   payload: {
     tile: Tile,
