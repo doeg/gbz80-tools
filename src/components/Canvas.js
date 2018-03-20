@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable */
 import cloneDeep from 'lodash/cloneDeep'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -8,16 +7,7 @@ import style from './canvas.css'
 import PixelGrid from './PixelGrid'
 import { updateTile } from '../actions'
 import { getActiveTile } from '../selectors'
-import type {
-  AppState,
-  Color,
-  Coords,
-  Palette,
-  Pixel,
-  PixelGrid as PixelGridType,
-  Tile,
-} from '../types'
-import * as factory from '../factory'
+import type { AppState, Color, Coords, Palette, Tile } from '../types'
 import * as convert from '../util/convert'
 
 // $FlowFixMe
@@ -68,7 +58,7 @@ class Canvas extends React.Component<Props, State> {
   }
 
   render() {
-    const { activeColor, activePalette, activeTile, height, width } = this.props
+    const { activePalette, activeTile } = this.props
 
     if (!activeTile) {
       return <div>select a tile</div>
