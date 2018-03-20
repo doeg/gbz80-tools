@@ -29,16 +29,16 @@ const TilePanel = ({
 }: DispatchProps & MappedProps) => {
   const onClickCreate = () => {
     const newTile = factory.makeTile()
-    props.setActiveTile(newTile.name)
+    props.createTile(newTile)
   }
 
-  const renderTile = ({ grid, name }: Tile) => {
-    const tileClass = cx({ [style.active]: name === activeTile })
+  const renderTile = ({ grid, id, name }: Tile) => {
+    const tileClass = cx({ [style.active]: id === activeTile })
     return (
       <li
         className={tileClass}
-        key={name}
-        onClick={() => props.setActiveTile(name)}
+        key={id}
+        onClick={() => props.setActiveTile(id)}
       >
         <div className={style.gridContainer}>
           <PixelGrid grid={grid} palette={activePalette} />

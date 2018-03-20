@@ -1,4 +1,6 @@
-import { Pixel, PixelGrid, Tile } from './types'
+// @flow
+import uuid from 'uuid/v4'
+import type { Pixel, PixelGrid, Tile } from './types'
 
 export const makePixel = (): Pixel => ({
   color: 0,
@@ -20,5 +22,6 @@ export const makePixelGrid = (opts: {
 
 export const makeTile = (): Tile => ({
   grid: makePixelGrid({ height: 8, width: 8 }),
+  id: uuid(),
   name: 'untitled',
 })

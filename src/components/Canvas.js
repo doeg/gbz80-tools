@@ -70,6 +70,10 @@ class Canvas extends React.Component<Props, State> {
   render() {
     const { activeColor, activePalette, activeTile, height, width } = this.props
 
+    if (!activeTile) {
+      return <div>select a tile</div>
+    }
+
     const hex = convert
       .toHex(toColorGrid(activeTile.grid))
       .map(h => `${h}`)

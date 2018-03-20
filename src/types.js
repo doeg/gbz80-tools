@@ -1,9 +1,11 @@
 // @flow
 
+export type UUID = string
+
 export type AppState = {
   activeColor: Color,
   activePalette: Palette,
-  activeTile: string,
+  activeTile: UUID,
   tiles: Tile[],
 }
 
@@ -14,14 +16,14 @@ export type ActiveColorSetAction = {
 
 export type ActiveTileSetAction = {
   payload: {
-    name: string,
+    id: UUID,
   },
   type: 'ACTIVE_TILE_SET',
 }
 
 export type TileClearedAction = {
   payload: {
-    name: string,
+    id: UUID,
   },
   type: 'TILE_CLEARED',
 }
@@ -70,5 +72,6 @@ export type PixelGrid = Array<Array<Pixel>>
 
 export type Tile = {
   grid: PixelGrid,
+  id: UUID,
   name: string,
 }

@@ -17,7 +17,7 @@ const makeDefaultState = (): AppState => {
   return {
     activeColor: 3,
     activePalette: ['#FFFFFF', '#999999', '#444444', '#000000'],
-    activeTile: defaultTile.name,
+    activeTile: defaultTile.id,
     tiles: [defaultTile],
   }
 }
@@ -43,14 +43,14 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
 
 const clearTile = (
   state: AppState,
-  { payload: { name } }: TileClearedAction,
+  { payload: { id } }: TileClearedAction,
 ): AppState =>
   // FIXME this is janky
   updateTile(state, {
     payload: {
       tile: {
         ...factory.makeTile(),
-        name,
+        id,
       },
     },
     type: 'TILE_UPDATED',
@@ -68,14 +68,14 @@ const setActiveColor = (
 
 const setActiveTile = (
   state: AppState,
-  { payload: { name } }: ActiveTileSetAction,
-): AppState => update(state, { activeTile: { $set: name } })
+  { payload: { id } }: ActiveTileSetAction,
+): AppState => update(state, { activeTile: { $set: id } })
 
 const updateTile = (
   state: AppState,
   { payload: { tile } }: TileUpdatedAction,
 ): AppState => {
-  const tileIndex = state.tiles.findIndex(({ name }) => name === tile.name)
+  const tileIndex = state.tiles.findIndex(({ id }) => id === tile.id)
 
   // no-nop
   if (tileIndex < 0) {
