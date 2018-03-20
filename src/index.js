@@ -1,22 +1,33 @@
 // @flow
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { persistStore, persistReducer } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+import storage from 'redux-persist/lib/storage'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
 import App from './components/App'
 import reducers from './reducers'
 
-const store = createStore(reducers)
+const persistConfig = {
+  key: 'gbz80',
+  storage,
+}
+const persistedReducer = persistReducer(persistConfig, reducers)
+const store = createStore(persistedReducer)
+const persistor = persistStore(store)
 
 const render = Component => {
   const root = document.getElementById('root')
   if (root) {
     ReactDOM.render(
       <Provider store={store}>
-        <Component />
+        <PersistGate persistor={persistor}>
+          <Component />
+        </PersistGate>
       </Provider>,
-      root
+      root,
     )
   }
 }
