@@ -1,6 +1,7 @@
 // @flow
 import update from 'immutability-helper'
-import { makeEmptyGrid } from './util/pixel-grid'
+
+import * as factory from './factory'
 import type {
   Action,
   ActiveColorSetAction,
@@ -8,19 +9,16 @@ import type {
   AppState,
   TileClearedAction,
   TileCreatedAction,
+  TileDeletedAction,
   TileUpdatedAction,
 } from './types'
 
 const makeDefaultState = (): AppState => {
-  const defaultTile = {
-    grid: makeEmptyGrid({ height: 8, width: 8 }),
-    name: 'tile-0',
-  }
-
+  const defaultTile = factory.makeTile()
   return {
     activeColor: 3,
     activePalette: ['#FFFFFF', '#999999', '#444444', '#000000'],
-    activeTile: defaultTile.name,
+    activeTile: defaultTile.id,
     tiles: [defaultTile],
   }
 }
@@ -37,6 +35,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return clearTile(state, action)
     case 'TILE_CREATED':
       return createTile(state, action)
+    case 'TILE_DELETED':
+      return deleteTile(state, action)
     case 'TILE_UPDATED':
       return updateTile(state, action)
     default:
@@ -46,14 +46,14 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
 
 const clearTile = (
   state: AppState,
-  { payload: { name } }: TileClearedAction
+  { payload: { id } }: TileClearedAction,
 ): AppState =>
   // FIXME this is janky
   updateTile(state, {
     payload: {
       tile: {
-        name,
-        grid: makeEmptyGrid({ height: 8, width: 8 }),
+        ...factory.makeTile(),
+        id,
       },
     },
     type: 'TILE_UPDATED',
@@ -61,24 +61,38 @@ const clearTile = (
 
 const createTile = (
   state: AppState,
-  { payload: { tile } }: TileCreatedAction
+  { payload: { tile } }: TileCreatedAction,
 ): AppState => update(state, { tiles: { $push: [tile] } })
+
+const deleteTile = (
+  state: AppState,
+  { payload: { id } }: TileDeletedAction,
+): AppState => {
+  const tileIndex = state.tiles.findIndex(tile => id === tile.id)
+  if (tileIndex < 0) {
+    return state
+  }
+
+  return update(state, {
+    tiles: { $splice: [[tileIndex, 1]] },
+  })
+}
 
 const setActiveColor = (
   state: AppState,
-  { payload }: ActiveColorSetAction
+  { payload }: ActiveColorSetAction,
 ): AppState => update(state, { activeColor: { $set: payload } })
 
 const setActiveTile = (
   state: AppState,
-  { payload: { name } }: ActiveTileSetAction
-): AppState => update(state, { activeTile: { $set: name } })
+  { payload: { id } }: ActiveTileSetAction,
+): AppState => update(state, { activeTile: { $set: id } })
 
 const updateTile = (
   state: AppState,
-  { payload: { tile } }: TileUpdatedAction
+  { payload: { tile } }: TileUpdatedAction,
 ): AppState => {
-  const tileIndex = state.tiles.findIndex(({ name }) => name === tile.name)
+  const tileIndex = state.tiles.findIndex(({ id }) => id === tile.id)
 
   // no-nop
   if (tileIndex < 0) {

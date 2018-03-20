@@ -6,9 +6,9 @@ import { connect } from 'react-redux'
 import style from './tilePanel.css'
 import Panel from './Panel'
 import PixelGrid from './PixelGrid'
-import { createTile, setActiveTile } from '../actions'
-import type { AppState, Palette, Tile } from '../types'
-import { makeEmptyGrid } from '../util/pixel-grid'
+import { createTile, deleteTile, setActiveTile } from '../actions'
+import * as factory from '../factory'
+import type { AppState, Palette, Tile, UUID } from '../types'
 
 type MappedProps = {
   activePalette: Palette,
@@ -18,6 +18,7 @@ type MappedProps = {
 
 type DispatchProps = {
   createTile: (tile: Tile) => any,
+  deleteTile: (id: UUID) => any,
   setActiveTile: string => any,
 }
 
@@ -28,26 +29,26 @@ const TilePanel = ({
   ...props
 }: DispatchProps & MappedProps) => {
   const onClickCreate = () => {
-    const createTileAction = props.createTile({
-      grid: makeEmptyGrid({ height: 8, width: 8 }),
-      name: `tile-${tiles.length}`,
-    })
-
-    props.setActiveTile(createTileAction.payload.tile.name)
+    const newTile = factory.makeTile()
+    props.createTile(newTile)
   }
 
-  const renderTile = ({ grid, name }: Tile) => {
-    const tileClass = cx({ [style.active]: name === activeTile })
+  const renderTile = ({ grid, id, name }: Tile) => {
+    const tileClass = cx({ [style.active]: id === activeTile })
+    const onClickDelete = () => props.deleteTile(id)
     return (
       <li
         className={tileClass}
-        key={name}
-        onClick={() => props.setActiveTile(name)}
+        key={id}
+        onClick={() => props.setActiveTile(id)}
       >
         <div className={style.gridContainer}>
           <PixelGrid grid={grid} palette={activePalette} />
         </div>
-        {name}
+        <div className={style.tileName}>{name}</div>
+        <button onClick={onClickDelete} type="button">
+          x
+        </button>
       </li>
     )
   }
@@ -55,9 +56,7 @@ const TilePanel = ({
   return (
     <Panel>
       <h2>Tiles</h2>
-      <ul className={style.tileList}>
-        {tiles.map(renderTile)}
-      </ul>
+      <ul className={style.tileList}>{tiles.map(renderTile)}</ul>
       <button onClick={onClickCreate} type="button">
         + New Tile
       </button>
@@ -76,6 +75,7 @@ const mapState = ({
 
 const mapDispatch: DispatchProps = {
   createTile,
+  deleteTile,
   setActiveTile,
 }
 

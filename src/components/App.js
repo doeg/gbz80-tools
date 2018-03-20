@@ -8,21 +8,25 @@ import Panel from './Panel'
 import SelectPalette from './SelectPalette'
 import TilePanel from './TilePanel'
 import { clearTile } from '../actions'
-import { getActiveTile } from '../selectors'
-import type { AppState } from '../types'
+import { getActiveTileID } from '../selectors'
+import type { AppState, UUID } from '../types'
 
 type MappedProps = {
-  activeTileName: string,
+  activeTileID: ?UUID,
 }
 
 type DispatchProps = {
-  clearTile: string => any,
+  clearTile: UUID => any,
 }
 
 type Props = DispatchProps & MappedProps
 
 const App = (props: Props) => {
-  const onClear = () => props.clearTile(props.activeTileName)
+  const onClear = () => {
+    if (props.activeTileID) {
+      props.clearTile(props.activeTileID)
+    }
+  }
 
   return (
     <div className={style.app}>
@@ -52,7 +56,7 @@ const App = (props: Props) => {
 }
 
 const mapState = (state: AppState) => ({
-  activeTileName: (getActiveTile(state) || {}).name,
+  activeTileID: getActiveTileID(state),
 })
 
 const mapDispatch = {
