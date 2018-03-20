@@ -7,8 +7,8 @@ import style from './tilePanel.css'
 import Panel from './Panel'
 import PixelGrid from './PixelGrid'
 import { createTile, setActiveTile } from '../actions'
+import * as factory from '../factory'
 import type { AppState, Palette, Tile } from '../types'
-import { makeEmptyGrid } from '../util/pixel-grid'
 
 type MappedProps = {
   activePalette: Palette,
@@ -28,12 +28,8 @@ const TilePanel = ({
   ...props
 }: DispatchProps & MappedProps) => {
   const onClickCreate = () => {
-    const createTileAction = props.createTile({
-      grid: makeEmptyGrid({ height: 8, width: 8 }),
-      name: `tile-${tiles.length}`,
-    })
-
-    props.setActiveTile(createTileAction.payload.tile.name)
+    const newTile = factory.makeTile()
+    props.setActiveTile(newTile.name)
   }
 
   const renderTile = ({ grid, name }: Tile) => {
@@ -55,9 +51,7 @@ const TilePanel = ({
   return (
     <Panel>
       <h2>Tiles</h2>
-      <ul className={style.tileList}>
-        {tiles.map(renderTile)}
-      </ul>
+      <ul className={style.tileList}>{tiles.map(renderTile)}</ul>
       <button onClick={onClickCreate} type="button">
         + New Tile
       </button>

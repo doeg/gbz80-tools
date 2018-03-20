@@ -17,7 +17,7 @@ import type {
   PixelGrid as PixelGridType,
   Tile,
 } from '../types'
-import * as pixelGrid from '../util/pixel-grid'
+import * as factory from '../factory'
 import * as convert from '../util/convert'
 
 // $FlowFixMe
@@ -94,12 +94,8 @@ class Canvas extends React.Component<Props, State> {
           onMouseUp={onMouseUp}
           palette={activePalette}
         />
-        <h3>
-          {activeTile.name}
-        </h3>
-        <pre>
-          {hex}
-        </pre>
+        <h3>{activeTile.name}</h3>
+        <pre>{hex}</pre>
       </div>
     )
   }

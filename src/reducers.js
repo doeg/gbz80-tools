@@ -1,6 +1,7 @@
 // @flow
 import update from 'immutability-helper'
-import { makeEmptyGrid } from './util/pixel-grid'
+
+import * as factory from './factory'
 import type {
   Action,
   ActiveColorSetAction,
@@ -12,11 +13,7 @@ import type {
 } from './types'
 
 const makeDefaultState = (): AppState => {
-  const defaultTile = {
-    grid: makeEmptyGrid({ height: 8, width: 8 }),
-    name: 'tile-0',
-  }
-
+  const defaultTile = factory.makeTile()
   return {
     activeColor: 3,
     activePalette: ['#FFFFFF', '#999999', '#444444', '#000000'],
@@ -46,14 +43,14 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
 
 const clearTile = (
   state: AppState,
-  { payload: { name } }: TileClearedAction
+  { payload: { name } }: TileClearedAction,
 ): AppState =>
   // FIXME this is janky
   updateTile(state, {
     payload: {
       tile: {
+        ...factory.makeTile(),
         name,
-        grid: makeEmptyGrid({ height: 8, width: 8 }),
       },
     },
     type: 'TILE_UPDATED',
@@ -61,22 +58,22 @@ const clearTile = (
 
 const createTile = (
   state: AppState,
-  { payload: { tile } }: TileCreatedAction
+  { payload: { tile } }: TileCreatedAction,
 ): AppState => update(state, { tiles: { $push: [tile] } })
 
 const setActiveColor = (
   state: AppState,
-  { payload }: ActiveColorSetAction
+  { payload }: ActiveColorSetAction,
 ): AppState => update(state, { activeColor: { $set: payload } })
 
 const setActiveTile = (
   state: AppState,
-  { payload: { name } }: ActiveTileSetAction
+  { payload: { name } }: ActiveTileSetAction,
 ): AppState => update(state, { activeTile: { $set: name } })
 
 const updateTile = (
   state: AppState,
-  { payload: { tile } }: TileUpdatedAction
+  { payload: { tile } }: TileUpdatedAction,
 ): AppState => {
   const tileIndex = state.tiles.findIndex(({ name }) => name === tile.name)
 
