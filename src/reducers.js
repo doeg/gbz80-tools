@@ -62,7 +62,11 @@ const clearTile = (
 const createTile = (
   state: AppState,
   { payload: { tile } }: TileCreatedAction,
-): AppState => update(state, { tiles: { $push: [tile] } })
+): AppState =>
+  update(state, {
+    activeTile: { $set: tile.id },
+    tiles: { $push: [tile] },
+  })
 
 const deleteTile = (
   state: AppState,
