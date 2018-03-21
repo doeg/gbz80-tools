@@ -35,7 +35,13 @@ const TilePanel = ({
 
   const renderTile = ({ grid, id, name }: Tile) => {
     const tileClass = cx({ [style.active]: id === activeTile })
-    const onClickDelete = () => props.deleteTile(id)
+
+    const onClickDelete = (e: Event) => {
+      // Otherwise the event bubbles & sets the deleted tile to active tile
+      e.stopPropagation()
+      props.deleteTile(id)
+    }
+
     return (
       <li
         className={tileClass}

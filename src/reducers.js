@@ -77,7 +77,16 @@ const deleteTile = (
     return state
   }
 
+  const tile = state.tiles[tileIndex]
+  let activeTile = {}
+  if (state.activeTile === tile.id) {
+    const nextTileIdx = Math.max(tileIndex - 1, 0)
+    const nextTileID = (state.tiles[nextTileIdx] || {}).id
+    activeTile = { $set: nextTileID }
+  }
+
   return update(state, {
+    activeTile,
     tiles: { $splice: [[tileIndex, 1]] },
   })
 }
