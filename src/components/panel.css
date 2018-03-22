@@ -1,8 +1,17 @@
 .panel {
   background: white;
   border: solid 1px black;
-  cursor: move;
   margin: 8px;
-  padding: 16px;
   position: absolute;
+}
+
+.toolbar {
+  border-bottom: solid 1px black;
+  cursor: move;
+  padding: 16px;
+  width: 100%;
+}
+
+.contents {
+  padding: 16px;
 }
