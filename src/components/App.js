@@ -3,11 +3,10 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './app.css'
-import Canvas from './Canvas'
-import Panel from './Panel'
-import SelectPalette from './SelectPalette'
+import CanvasPanel from './CanvasPanel'
 import TilePanel from './TilePanel'
-import { clearTile } from '../actions'
+import Workspace from './Workspace'
+import { clearTile, resetWorkspace } from '../actions'
 import { getActiveTileID } from '../selectors'
 import type { AppState, UUID } from '../types'
 
@@ -17,43 +16,26 @@ type MappedProps = {
 
 type DispatchProps = {
   clearTile: UUID => any,
+  resetWorkspace: () => any,
 }
 
 type Props = DispatchProps & MappedProps
 
-const App = (props: Props) => {
-  const onClear = () => {
-    if (props.activeTileID) {
-      props.clearTile(props.activeTileID)
-    }
-  }
+const App = (props: Props) => (
+  <div className={style.app}>
+    <header className={style.header}>
+      <h1>GameBoy Z80 Tools</h1>
+      <button onClick={props.resetWorkspace} type="button">
+        Reset Layout
+      </button>
+    </header>
 
-  return (
-    <div className={style.app}>
-      <header className={style.header}>
-        <h1>GameBoy Z80 Tools</h1>
-      </header>
-
-      <div className={style.container}>
-        <Panel>
-          <div className={style.canvas}>
-            <div className={style.controls}>
-              <SelectPalette />
-              <div>
-                <button onClick={onClear} type="button">
-                  Clear
-                </button>
-              </div>
-            </div>
-            <Canvas height={8} width={8} />
-          </div>
-        </Panel>
-
-        <TilePanel />
-      </div>
-    </div>
-  )
-}
+    <Workspace>
+      <CanvasPanel />
+      <TilePanel />
+    </Workspace>
+  </div>
+)
 
 const mapState = (state: AppState) => ({
   activeTileID: getActiveTileID(state),
@@ -61,6 +43,7 @@ const mapState = (state: AppState) => ({
 
 const mapDispatch = {
   clearTile,
+  resetWorkspace,
 }
 
 export default connect(mapState, mapDispatch)(App)

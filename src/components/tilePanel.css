@@ -1,8 +1,8 @@
 .tileList {
   list-style-type: none;
   margin: 0 0 16px 0;
-  width: 200px;
   padding: 0;
+  width: 100%;
 }
 
 .tileList li {

@@ -7,6 +7,12 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: var(--fontText);
   font-weight: 400;
@@ -20,12 +26,22 @@ h1 {
 
 .app {
   color: var(--textColor) !important;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
 }
 
 .header {
   align-items: center;
+  border-bottom: solid 1px black;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.header h1 {
+  font-size: 24px;
 }
 
 .container {
@@ -35,18 +51,4 @@ h1 {
   flex-direction: row;
   margin: 0 auto;
   max-width: 960px;
-}
-
-.canvas {
-  align-items: center;
-  display: flex;
-  flex: 1 1 100%;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.controls {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
 }
