@@ -36,7 +36,7 @@ const App = (props: Props) => {
       </header>
 
       <Workspace>
-        <Panel left={300} top={0}>
+        <Panel id="CanvasPanel" left={300} top={0}>
           <div className={style.canvas}>
             <div className={style.controls}>
               <SelectPalette />
