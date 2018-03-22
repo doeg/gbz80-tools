@@ -1,0 +1,13 @@
+.canvas {
+  align-items: center;
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.controls {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
