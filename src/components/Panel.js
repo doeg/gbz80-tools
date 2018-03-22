@@ -1,8 +1,10 @@
 // @flow
 import * as React from 'react'
 import { DragSource } from 'react-dnd'
+import { connect } from 'react-redux'
 
 import style from './panel.css'
+import { getPanelCoords } from '../selectors'
 
 type Props = {
   children: any,
@@ -27,9 +29,13 @@ const spec = {
   },
 }
 
-const collect = (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
+const collect = (dndConnect, monitor) => ({
+  connectDragSource: dndConnect.dragSource(),
   isDragging: monitor.isDragging(),
 })
 
-export default DragSource('PANEL', spec, collect)(Panel)
+const mapState = (state, ownProps) => ({
+  ...getPanelCoords(state, ownProps.id),
+})
+
+export default connect(mapState)(DragSource('PANEL', spec, collect)(Panel))

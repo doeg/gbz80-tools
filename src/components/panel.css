@@ -1,6 +1,7 @@
 .panel {
   background: white;
   border: solid 1px black;
+  cursor: move;
   margin: 8px;
   padding: 16px;
   position: absolute;

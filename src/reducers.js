@@ -19,6 +19,10 @@ const makeDefaultState = (): AppState => {
     activeColor: 3,
     activePalette: ['#FFFFFF', '#999999', '#444444', '#000000'],
     activeTile: defaultTile.id,
+    panels: {
+      TilePanel: { top: 0, left: 0 },
+      CanvasPanel: { top: 0, left: 260 },
+    },
     tiles: [defaultTile],
   }
 }
@@ -31,6 +35,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return setActiveColor(state, action)
     case 'ACTIVE_TILE_SET':
       return setActiveTile(state, action)
+    case 'PANEL_UPDATED':
+      return updatePanel(state, action)
     case 'TILE_CLEARED':
       return clearTile(state, action)
     case 'TILE_CREATED':
@@ -118,5 +124,15 @@ const updateTile = (
     },
   })
 }
+
+const updatePanel = (
+  state: AppState,
+  { payload: { id, top, left } }: Object,
+): AppState =>
+  update(state, {
+    panels: {
+      [id]: { $set: { top, left } },
+    },
+  })
 
 export default rootReducer

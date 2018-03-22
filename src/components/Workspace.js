@@ -3,8 +3,10 @@
 import * as React from 'react'
 import { DragDropContext, DropTarget } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
+import { connect } from 'react-redux'
 
 import style from './workspace.css'
+import { updatePanel } from '../actions'
 
 type Props = {
   children: ?any,
@@ -26,7 +28,11 @@ const panelTargetSpec = {
     const delta = monitor.getDifferenceFromInitialOffset()
     const left = Math.round(item.left + delta.x)
     const top = Math.round(item.top + delta.y)
-    console.log(item, left, top)
+    props.updatePanel({
+      id: item.id,
+      left,
+      top,
+    })
   },
 }
 
@@ -34,6 +40,12 @@ const collect = dndConnect => ({
   connectDropTarget: dndConnect.dropTarget(),
 })
 
-export default DragDropContext(HTML5Backend)(
-  DropTarget('PANEL', panelTargetSpec, collect)(Workspace),
+const mapDispatch = {
+  updatePanel,
+}
+
+export default connect(null, mapDispatch)(
+  DragDropContext(HTML5Backend)(
+    DropTarget('PANEL', panelTargetSpec, collect)(Workspace),
+  ),
 )

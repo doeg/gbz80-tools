@@ -41,3 +41,8 @@ export const updateTile = (tile: Tile): TileUpdatedAction => ({
   payload: { tile },
   type: 'TILE_UPDATED',
 })
+
+export const updatePanel = ({ id, top, left }: Object): Object => ({
+  payload: { id, top, left },
+  type: 'PANEL_UPDATED',
+})
