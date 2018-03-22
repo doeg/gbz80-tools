@@ -46,3 +46,7 @@ export const updatePanel = ({ id, top, left }: Object): Object => ({
   payload: { id, top, left },
   type: 'PANEL_UPDATED',
 })
+
+export const resetWorkspace = (): Object => ({
+  type: 'WORKSPACE_RESET',
+})

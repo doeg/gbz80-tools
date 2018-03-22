@@ -36,7 +36,12 @@ h1 {
   align-items: center;
   border-bottom: solid 1px black;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.header h1 {
+  font-size: 24px;
 }
 
 .container {

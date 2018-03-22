@@ -8,7 +8,7 @@ import Panel from './Panel'
 import SelectPalette from './SelectPalette'
 import TilePanel from './TilePanel'
 import Workspace from './Workspace'
-import { clearTile } from '../actions'
+import { clearTile, resetWorkspace } from '../actions'
 import { getActiveTileID } from '../selectors'
 import type { AppState, UUID } from '../types'
 
@@ -18,6 +18,7 @@ type MappedProps = {
 
 type DispatchProps = {
   clearTile: UUID => any,
+  resetWorkspace: () => any,
 }
 
 type Props = DispatchProps & MappedProps
@@ -33,6 +34,9 @@ const App = (props: Props) => {
     <div className={style.app}>
       <header className={style.header}>
         <h1>GameBoy Z80 Tools</h1>
+        <button onClick={props.resetWorkspace} type="button">
+          Reset Layout
+        </button>
       </header>
 
       <Workspace>
@@ -62,6 +66,7 @@ const mapState = (state: AppState) => ({
 
 const mapDispatch = {
   clearTile,
+  resetWorkspace,
 }
 
 export default connect(mapState, mapDispatch)(App)

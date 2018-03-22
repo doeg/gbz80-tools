@@ -45,6 +45,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return deleteTile(state, action)
     case 'TILE_UPDATED':
       return updateTile(state, action)
+    case 'WORKSPACE_RESET':
+      return resetWorkspace(state)
     default:
       return state
   }
@@ -133,6 +135,11 @@ const updatePanel = (
     panels: {
       [id]: { $set: { top, left } },
     },
+  })
+
+const resetWorkspace = (state: AppState): AppState =>
+  update(state, {
+    panels: { $set: makeDefaultState().panels },
   })
 
 export default rootReducer
