@@ -7,6 +7,7 @@ import Canvas from './Canvas'
 import Panel from './Panel'
 import SelectPalette from './SelectPalette'
 import TilePanel from './TilePanel'
+import Workspace from './Workspace'
 import { clearTile } from '../actions'
 import { getActiveTileID } from '../selectors'
 import type { AppState, UUID } from '../types'
@@ -34,8 +35,8 @@ const App = (props: Props) => {
         <h1>GameBoy Z80 Tools</h1>
       </header>
 
-      <div className={style.container}>
-        <Panel>
+      <Workspace>
+        <Panel left={300} top={0}>
           <div className={style.canvas}>
             <div className={style.controls}>
               <SelectPalette />
@@ -50,7 +51,7 @@ const App = (props: Props) => {
         </Panel>
 
         <TilePanel />
-      </div>
+      </Workspace>
     </div>
   )
 }

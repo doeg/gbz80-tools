@@ -60,7 +60,7 @@ const TilePanel = ({
   }
 
   return (
-    <Panel>
+    <Panel height={500} left={0} top={0} width={240}>
       <h2>Tiles</h2>
       <ul className={style.tileList}>{tiles.map(renderTile)}</ul>
       <button onClick={onClickCreate} type="button">
