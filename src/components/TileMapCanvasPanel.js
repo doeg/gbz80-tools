@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 
+import CanvasSizeInput from './CanvasSizeInput'
 import Panel from './Panel'
 import { getActiveTileMap } from '../selectors'
 
@@ -18,7 +19,12 @@ class TileMapCanvasPanel extends React.Component<Props> {
 
     return (
       <Panel height={500} id="TileMapCanvasPanel" title={title} width={750}>
-        Tile map canvas panel
+        <CanvasSizeInput />
+        <pre>
+          {tileMap.map.map((row, idx) => (
+            <p key={idx}>{JSON.stringify(row)}</p>
+          ))}
+        </pre>
       </Panel>
     )
   }

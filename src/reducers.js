@@ -47,6 +47,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return deleteTile(state, action)
     case 'TILE_UPDATED':
       return updateTile(state, action)
+    case 'TILE_MAP_SIZE_UPDATED':
+      return updateTileMapSize(state, action)
     case 'WORKSPACE_RESET':
       return resetWorkspace(state)
     default:
@@ -143,5 +145,47 @@ const resetWorkspace = (state: AppState): AppState =>
   update(state, {
     panels: { $set: makeDefaultState().panels },
   })
+
+const updateTileMapSize = (state: AppState, action: Object): AppState => {
+  const { height, tileMapID, width } = action.payload
+
+  const tileMapIdx = state.tileMaps.findIndex(t => t.id === tileMapID)
+  const tileMap = state.tileMaps[tileMapIdx]
+
+  if (tileMapIdx < 0 || !tileMap) {
+    return state
+  }
+
+  let nextMap = tileMap.map || []
+
+  // Need to resize rows to be wider
+  const widthDiff = width - tileMap.width
+  if (widthDiff > 0) {
+    nextMap = tileMap.map.map(row => {
+      const nextRow = []
+      for (let i = 0; i < width; i++) {
+        const nextCell = i < row.length ? row[i] : null
+        nextRow.push(nextCell)
+      }
+      return nextRow
+    })
+  }
+
+  // Need to resize map to be taller
+  const heightDiff = height - tileMap.height
+  for (let i = 0; i < heightDiff; i++) {
+    nextMap.push(Array(width).fill(null))
+  }
+
+  return update(state, {
+    tileMaps: {
+      [tileMapIdx]: {
+        height: { $set: height },
+        map: { $set: nextMap },
+        width: { $set: width },
+      },
+    },
+  })
+}
 
 export default rootReducer

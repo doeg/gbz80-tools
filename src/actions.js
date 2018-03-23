@@ -50,3 +50,12 @@ export const updatePanel = ({ id, top, left }: Object): Object => ({
 export const resetWorkspace = (): Object => ({
   type: 'WORKSPACE_RESET',
 })
+
+export const updateTileMapSize = (opts: {
+  height: number,
+  tileMapID: string,
+  width: number,
+}): Object => ({
+  payload: opts,
+  type: 'TILE_MAP_SIZE_UPDATED',
+})
