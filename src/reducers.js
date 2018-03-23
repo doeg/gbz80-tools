@@ -20,8 +20,9 @@ const makeDefaultState = (): AppState => {
     activePalette: ['#FFFFFF', '#999999', '#444444', '#000000'],
     activeTile: defaultTile.id,
     panels: {
-      TilePanel: { top: 0, left: 0 },
       CanvasPanel: { top: 0, left: 260 },
+      TileMapCanvasPanel: { top: 0, left: 260 },
+      TilePanel: { top: 0, left: 0 },
     },
     tiles: [defaultTile],
     tileMaps: [factory.makeTileMap()],
