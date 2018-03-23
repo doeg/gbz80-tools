@@ -3,6 +3,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './app.css'
+import CanvasPanel from './CanvasPanel'
 import TilePanel from './TilePanel'
 import TileMapCanvasPanel from './TileMapCanvasPanel'
 import Workspace from './Workspace'
@@ -32,6 +33,7 @@ const App = (props: Props) => (
 
     <Workspace>
       <TilePanel />
+      <CanvasPanel />
       <TileMapCanvasPanel />
     </Workspace>
   </div>
