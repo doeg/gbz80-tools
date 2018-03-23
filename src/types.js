@@ -7,6 +7,7 @@ export type AppState = {
   activePalette: Palette,
   activeTile: UUID,
   tiles: Tile[],
+  tileMaps: TileMap[],
 }
 
 export type ActiveColorSetAction = {
@@ -81,4 +82,12 @@ export type Tile = {
   grid: PixelGrid,
   id: UUID,
   name: string,
+}
+
+export type TileMap = {
+  height: number, // in tiles
+  id: UUID,
+  name: string,
+  map: Array<Array<?UUID>>,
+  width: number, // in tiles
 }

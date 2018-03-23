@@ -24,6 +24,7 @@ const makeDefaultState = (): AppState => {
       CanvasPanel: { top: 0, left: 260 },
     },
     tiles: [defaultTile],
+    tileMaps: [factory.makeTileMap()],
   }
 }
 
