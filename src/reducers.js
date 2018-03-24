@@ -2,6 +2,7 @@
 import array2D from 'array2d'
 import update from 'immutability-helper'
 
+import { TOOLS } from './constants'
 import * as factory from './factory'
 import type {
   Action,
@@ -23,8 +24,10 @@ const makeDefaultState = (): AppState => {
     activeColor: 3,
     activePalette: ['#FFFFFF', '#AAA', '#666', '#000000'],
     activeTile: defaultTile.id,
+    activeTool: TOOLS.CURSOR,
     panels: {
-      TilePanel: { top: 0, left: 0 },
+      TilePanel: { top: 360, left: 0 },
+      ToolPanel: { top: 0, left: 0 },
       CanvasPanel: { top: 0, left: 260 },
     },
     tileMaps: [],
@@ -40,6 +43,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return setActiveColor(state, action)
     case 'ACTIVE_TILE_SET':
       return setActiveTile(state, action)
+    case 'ACTIVE_TOOL_SET':
+      return setActiveTool(state, action)
     case 'PANEL_UPDATED':
       return updatePanel(state, action)
     case 'TILE_CLEARED':
@@ -264,5 +269,13 @@ const flipTileY = (
     },
   })
 }
+
+const setActiveTool = (
+  state: AppState,
+  { payload: { tool } }: Object,
+): AppState =>
+  update(state, {
+    activeTool: { $set: tool },
+  })
 
 export default rootReducer

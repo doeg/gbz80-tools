@@ -1,4 +1,5 @@
 // @flow
+import { TOOLS } from './constants'
 
 export type UUID = string
 
@@ -6,6 +7,7 @@ export type AppState = {
   activeColor: Color,
   activePalette: Palette,
   activeTile: UUID,
+  activeTool: Tool,
   panels: {
     [panelID: string]: {
       left: number,
@@ -120,3 +122,5 @@ export type TileMap = {
   // A grid of tile IDs
   tiles: Array<Array<?UUID>>,
 }
+
+export type Tool = $Keys<typeof TOOLS>

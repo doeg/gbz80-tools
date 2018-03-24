@@ -1,0 +1,25 @@
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.tool {
+  background: none;
+  border: solid 1px #999;
+  cursor: pointer;
+  display: block;
+  margin: 4px;
+  outline: none;
+  padding: 8px;
+
+  &:hover {
+    border-color: fuchsia;
+  }
+}
+
+.activeTool {
+  composes: tool;
+  border-color: fuchsia;
+  color: fuchsia;
+  font-weight: bold;
+}
