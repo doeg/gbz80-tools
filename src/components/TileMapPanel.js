@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import style from './tileMapPanel.css'
 import Panel from './Panel'
+import TileMapCanvas from './TileMapCanvas'
 import { createTileMap } from '../actions'
 import { getActiveTileMap } from '../selectors'
 import type { AppState, TileMap } from '../types'
@@ -35,7 +36,7 @@ const TileMapPanel = ({ tileMap, ...props }: Props) => {
           + New Tile Map
         </button>
       </div>
-      tile map panel
+      <TileMapCanvas />
     </Panel>
   )
 }

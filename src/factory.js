@@ -29,5 +29,5 @@ export const makeTile = (): Tile => ({
 export const makeTileMap = (): TileMap => ({
   id: uuid(),
   name: null,
-  tiles: [],
+  tiles: [[null]],
 })
