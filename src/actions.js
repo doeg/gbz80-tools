@@ -4,11 +4,16 @@ import type {
   ActiveColorSetAction,
   ActiveTileSetAction,
   Color,
+  Coords,
   Tile,
   TileClearedAction,
   TileCreatedAction,
   TileDeletedAction,
   TileUpdatedAction,
+  TileMap,
+  TileMapTileClearedAction,
+  TileMapCreatedAction,
+  TileMapTileSetAction,
   UUID,
 } from './types'
 
@@ -49,4 +54,26 @@ export const updatePanel = ({ id, top, left }: Object): Object => ({
 
 export const resetWorkspace = (): Object => ({
   type: 'WORKSPACE_RESET',
+})
+
+export const createTileMap = (tileMap: TileMap): TileMapCreatedAction => ({
+  payload: { tileMap },
+  type: 'TILE_MAP_CREATED',
+})
+
+export const setMapTile = (
+  tileMapID: UUID,
+  coords: Coords,
+  tileID: UUID,
+): TileMapTileSetAction => ({
+  payload: { tileMapID, tileID, coords },
+  type: 'TILE_MAP_TILE_SET',
+})
+
+export const clearMapTile = (
+  tileMapID: UUID,
+  coords: Coords,
+): TileMapTileClearedAction => ({
+  payload: { tileMapID, coords },
+  type: 'TILE_MAP_TILE_CLEARED',
 })

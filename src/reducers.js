@@ -11,6 +11,9 @@ import type {
   TileCreatedAction,
   TileDeletedAction,
   TileUpdatedAction,
+  TileMapTileClearedAction,
+  TileMapCreatedAction,
+  TileMapTileSetAction,
 } from './types'
 
 const makeDefaultState = (): AppState => {
@@ -23,6 +26,7 @@ const makeDefaultState = (): AppState => {
       TilePanel: { top: 0, left: 0 },
       CanvasPanel: { top: 0, left: 260 },
     },
+    tileMaps: [],
     tiles: [defaultTile],
   }
 }
@@ -45,6 +49,12 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return deleteTile(state, action)
     case 'TILE_UPDATED':
       return updateTile(state, action)
+    case 'TILE_MAP_CREATED':
+      return createTileMap(state, action)
+    case 'TILE_MAP_TILE_SET':
+      return setMapTile(state, action)
+    case 'TILE_MAP_TILE_CLEARED':
+      return clearMapTile(state, action)
     case 'WORKSPACE_RESET':
       return resetWorkspace(state)
     default:
@@ -141,5 +151,57 @@ const resetWorkspace = (state: AppState): AppState =>
   update(state, {
     panels: { $set: makeDefaultState().panels },
   })
+
+const createTileMap = (
+  state: AppState,
+  { payload }: TileMapCreatedAction,
+): AppState =>
+  update(state, {
+    tileMaps: { $push: [payload.tileMap] },
+  })
+
+const clearMapTile = (
+  state: AppState,
+  { payload: { tileMapID, coords } }: TileMapTileClearedAction,
+): AppState => {
+  const tileMapIdx = state.tileMaps.findIndex(({ id }) => id === tileMapID)
+  if (tileMapIdx < 0) {
+    return state
+  }
+
+  return update(state, {
+    tileMaps: {
+      [tileMapIdx]: {
+        tiles: {
+          [coords.y]: {
+            [coords.x]: { $set: null },
+          },
+        },
+      },
+    },
+  })
+}
+
+const setMapTile = (
+  state: AppState,
+  { payload: { coords, tileID, tileMapID } }: TileMapTileSetAction,
+): AppState => {
+  const tileMapIdx = state.tileMaps.findIndex(({ id }) => id === tileMapID)
+  if (tileMapIdx < 0) {
+    return state
+  }
+
+  return update(state, {
+    tileMaps: {
+      [tileMapIdx]: {
+        tiles: {
+          [coords.y]: {
+            [coords.x]: { $set: tileID },
+          },
+        },
+      },
+    },
+  })
+}
 
 export default rootReducer

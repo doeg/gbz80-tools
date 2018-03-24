@@ -12,6 +12,7 @@ export type AppState = {
       top: number,
     },
   },
+  tileMaps: TileMap[],
   tiles: Tile[],
 }
 
@@ -55,6 +56,30 @@ export type TileUpdatedAction = {
   type: 'TILE_UPDATED',
 }
 
+export type TileMapCreatedAction = {
+  payload: {
+    tileMap: TileMap,
+  },
+  type: 'TILE_MAP_CREATED',
+}
+
+export type TileMapTileSetAction = {
+  payload: {
+    tileMapID: UUID,
+    tileID: UUID,
+    coords: Coords,
+  },
+  type: 'TILE_MAP_TILE_SET',
+}
+
+export type TileMapTileClearedAction = {
+  payload: {
+    tileMapID: UUID,
+    coords: Coords,
+  },
+  type: 'TILE_MAP_TILE_CLEARED',
+}
+
 export type Action = ActiveColorSetAction
 
 /*
@@ -87,4 +112,11 @@ export type Tile = {
   grid: PixelGrid,
   id: UUID,
   name: string,
+}
+
+export type TileMap = {
+  id: UUID,
+  name: ?string,
+  // A grid of tile IDs
+  tiles: Array<Array<?UUID>>,
 }
