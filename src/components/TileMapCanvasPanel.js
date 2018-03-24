@@ -38,6 +38,7 @@ class TileMapCanvasPanel extends React.Component<Props> {
       return
     }
 
+    console.log('onclickcell')
     this.props.setTileMapTile({
       coords: {
         x: col,
@@ -50,13 +51,21 @@ class TileMapCanvasPanel extends React.Component<Props> {
 
   renderCell(row, col) {
     const { activePalette, tiles, tileMap } = this.props
-    const onClick = this.onClickCell(row, col)
+    const onClick = () => {
+      this.onClickCell(row, col)
+    }
 
     const tileID = tileMap.map[row][col]
     const tile = tiles.find(t => t.id === tileID)
     return (
-      <div className={style.cell} key={`${row}-${col}`}>
-        <PixelGrid grid={tile.grid} palette={activePalette} />
+      <div className={style.cell} key={`${row}-${col}`} onClick={onClick}>
+        <div>
+          {tile && tile.grid ? (
+            <PixelGrid grid={tile.grid} palette={activePalette} />
+          ) : (
+            <div className={style.placeholder} />
+          )}
+        </div>
       </div>
     )
   }
