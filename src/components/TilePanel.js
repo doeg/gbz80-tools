@@ -98,10 +98,16 @@ const TilePanel = ({
 
   return (
     <Panel height={500} id="TilePanel" title="Tiles" width={300}>
-      <ul className={style.tileList}>{tiles.map(renderTile)}</ul>
-      <button onClick={onClickCreate} type="button">
-        + New Tile
-      </button>
+      <div className={style.container}>
+        <div className={style.controls}>
+          <button onClick={onClickCreate} type="button">
+            + New Tile
+          </button>
+        </div>
+        <div className={style.content}>
+          <ul className={style.tileList}>{tiles.map(renderTile)}</ul>
+        </div>
+      </div>
     </Panel>
   )
 }

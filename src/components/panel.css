@@ -1,17 +1,24 @@
 .panel {
   background: white;
   border: solid 1px black;
+  display: flex;
+  flex-direction: column;
   margin: 8px;
+  overflow: hidden;
   position: absolute;
 }
 
 .toolbar {
   border-bottom: solid 1px black;
   cursor: move;
+  flex: none;
   padding: 16px;
   width: 100%;
 }
 
 .contents {
-  padding: 16px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: auto;
 }

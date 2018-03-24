@@ -1,3 +1,6 @@
+.container {
+  padding: 8px;
+}
 .tileList {
   list-style-type: none;
   margin: 0 0 16px 0;
@@ -40,4 +43,11 @@
 
 .buttons {
   flex: none;
+}
+
+.controls {
+  align-items: middle;
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 0;
 }
