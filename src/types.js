@@ -6,6 +6,12 @@ export type AppState = {
   activeColor: Color,
   activePalette: Palette,
   activeTile: UUID,
+  panels: {
+    [panelID: string]: {
+      left: number,
+      top: number,
+    },
+  },
   tiles: Tile[],
 }
 
