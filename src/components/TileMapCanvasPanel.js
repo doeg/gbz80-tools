@@ -6,12 +6,18 @@ import { connect } from 'react-redux'
 import style from './tileMapCanvasPanel.css'
 import CanvasSizeInput from './CanvasSizeInput'
 import Panel from './Panel'
-import { getActiveTileMap } from '../selectors'
+import { setTileMapTile } from '../actions'
+import { getActiveTileID, getActiveTileMap } from '../selectors'
 
 type MappedProps = {
   tileMap: ?TileMap,
 }
-type Props = MappedProps
+
+type DispatchProps = {
+  setTileMapTile: Function,
+}
+
+type Props = MappedProps & DispatchProps
 
 class TileMapCanvasPanel extends React.Component<Props> {
   constructor(props: Props) {
@@ -20,7 +26,19 @@ class TileMapCanvasPanel extends React.Component<Props> {
   }
 
   onClickCell(row, col) {
-    console.log('clicked', row, col)
+    const { activeTileID, tileMap } = this.props
+    if (!activeTileID || !tileMap) {
+      return
+    }
+
+    this.props.setTileMapTile({
+      coords: {
+        x: col,
+        y: row,
+      },
+      tileID: activeTileID,
+      tileMapID: tileMap.id,
+    })
   }
 
   render() {
@@ -50,7 +68,12 @@ class TileMapCanvasPanel extends React.Component<Props> {
 }
 
 const mapState = (state: AppState): MappedProps => ({
+  activeTileID: getActiveTileID(state),
   tileMap: getActiveTileMap(state),
 })
 
-export default connect(mapState)(TileMapCanvasPanel)
+const mapDispatch = {
+  setTileMapTile,
+}
+
+export default connect(mapState, mapDispatch)(TileMapCanvasPanel)

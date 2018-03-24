@@ -4,6 +4,7 @@ import type {
   ActiveColorSetAction,
   ActiveTileSetAction,
   Color,
+  Coords,
   Tile,
   TileClearedAction,
   TileCreatedAction,
@@ -58,4 +59,13 @@ export const updateTileMapSize = (opts: {
 }): Object => ({
   payload: opts,
   type: 'TILE_MAP_SIZE_UPDATED',
+})
+
+export const setTileMapTile = (opts: {
+  coords: Coords,
+  tileID: UUID,
+  tileMapID: UUID,
+}): Object => ({
+  payload: opts,
+  type: 'TILE_MAP_TILE_SET',
 })

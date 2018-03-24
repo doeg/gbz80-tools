@@ -49,6 +49,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return updateTile(state, action)
     case 'TILE_MAP_SIZE_UPDATED':
       return updateTileMapSize(state, action)
+    case 'TILE_MAP_TILE_SET':
+      return setTileMapTile(state, action)
     case 'WORKSPACE_RESET':
       return resetWorkspace(state)
     default:
@@ -151,7 +153,6 @@ const updateTileMapSize = (state: AppState, action: Object): AppState => {
 
   const tileMapIdx = state.tileMaps.findIndex(t => t.id === tileMapID)
   const tileMap = state.tileMaps[tileMapIdx]
-
   if (tileMapIdx < 0 || !tileMap) {
     return state
   }
@@ -183,6 +184,30 @@ const updateTileMapSize = (state: AppState, action: Object): AppState => {
         height: { $set: height },
         map: { $set: nextMap },
         width: { $set: width },
+      },
+    },
+  })
+}
+
+const setTileMapTile = (state: AppState, action: Object): AppState => {
+  const { coords, tileID, tileMapID } = action.payload
+
+  const tileMapIdx = state.tileMaps.findIndex(t => t.id === tileMapID)
+  const tileMap = state.tileMaps[tileMapIdx]
+  if (tileMapIdx < 0 || !tileMap) {
+    return state
+  }
+
+  return update(state, {
+    tileMaps: {
+      [tileMapIdx]: {
+        map: {
+          [coords.y]: {
+            [coords.x]: {
+              $set: tileID,
+            },
+          },
+        },
       },
     },
   })
