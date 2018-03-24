@@ -51,6 +51,11 @@ export const updatePanel = ({ id, top, left }: Object): Object => ({
   type: 'PANEL_UPDATED',
 })
 
+export const duplicateTile = (tile: Tile): Object => ({
+  payload: { tile },
+  type: 'TILE_DUPLICATED',
+})
+
 export const resetWorkspace = (): Object => ({
   type: 'WORKSPACE_RESET',
 })

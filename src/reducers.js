@@ -49,6 +49,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return deleteTile(state, action)
     case 'TILE_UPDATED':
       return updateTile(state, action)
+    case 'TILE_DUPLICATED':
+      return duplicateTile(state, action)
     case 'TILE_MAP_CREATED':
       return createTileMap(state, action)
     case 'TILE_MAP_TILE_SET':
@@ -201,6 +203,21 @@ const setMapTile = (
         },
       },
     },
+  })
+}
+
+const duplicateTile = (
+  state: AppState,
+  { payload: { tile } }: Object,
+): AppState => {
+  const newTile = {
+    ...tile,
+    id: factory.makeTile().id,
+  }
+
+  return update(state, {
+    activeTile: { $set: newTile.id },
+    tiles: { $push: [newTile] },
   })
 }
 

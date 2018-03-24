@@ -6,7 +6,12 @@ import { connect } from 'react-redux'
 import style from './tilePanel.css'
 import Panel from './Panel'
 import PixelGrid from './PixelGrid'
-import { createTile, deleteTile, setActiveTile } from '../actions'
+import {
+  createTile,
+  deleteTile,
+  duplicateTile,
+  setActiveTile,
+} from '../actions'
 import * as factory from '../factory'
 import type { AppState, Palette, Tile, UUID } from '../types'
 
@@ -19,6 +24,7 @@ type MappedProps = {
 type DispatchProps = {
   createTile: (tile: Tile) => any,
   deleteTile: (id: UUID) => any,
+  duplicateTile: (tile: Tile) => any,
   setActiveTile: string => any,
 }
 
@@ -33,13 +39,19 @@ const TilePanel = ({
     props.createTile(newTile)
   }
 
-  const renderTile = ({ grid, id, name }: Tile) => {
+  const renderTile = (tile: Tile) => {
+    const { grid, id, name } = tile
     const tileClass = cx({ [style.active]: id === activeTile })
 
     const onClickDelete = (e: Event) => {
       // Otherwise the event bubbles & sets the deleted tile to active tile
       e.stopPropagation()
       props.deleteTile(id)
+    }
+
+    const onClickDuplicate = (e: Event) => {
+      e.stopPropagation()
+      props.duplicateTile(tile)
     }
 
     return (
@@ -52,15 +64,20 @@ const TilePanel = ({
           <PixelGrid grid={grid} palette={activePalette} />
         </div>
         <div className={style.tileName}>{name}</div>
-        <button onClick={onClickDelete} type="button">
-          x
-        </button>
+        <div className={style.buttons}>
+          <button onClick={onClickDuplicate} type="button">
+            Copy
+          </button>
+          <button onClick={onClickDelete} type="button">
+            x
+          </button>
+        </div>
       </li>
     )
   }
 
   return (
-    <Panel height={500} id="TilePanel" title="Tiles" width={240}>
+    <Panel height={500} id="TilePanel" title="Tiles" width={300}>
       <ul className={style.tileList}>{tiles.map(renderTile)}</ul>
       <button onClick={onClickCreate} type="button">
         + New Tile
@@ -81,6 +98,7 @@ const mapState = ({
 const mapDispatch: DispatchProps = {
   createTile,
   deleteTile,
+  duplicateTile,
   setActiveTile,
 }
 

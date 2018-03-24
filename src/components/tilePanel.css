@@ -15,7 +15,7 @@
   white-space: nowrap;
 
   &:hover {
-    border-color: fuchsia;
+    background-color: #EEE;
   }
 }
 
@@ -36,4 +36,8 @@
 
 .tileName {
   flex: 1 1 100%;
+}
+
+.buttons {
+  flex: none;
 }
