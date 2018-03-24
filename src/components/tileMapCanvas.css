@@ -14,6 +14,8 @@
   display: table-cell;
   height: 32px;
   width: 32px;
+  padding: 0;
+  margin: 0;
 
   &:hover {
     border-color: fuchsia;

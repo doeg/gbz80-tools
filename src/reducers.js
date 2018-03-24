@@ -1,4 +1,5 @@
 // @flow
+import array2D from 'array2d'
 import update from 'immutability-helper'
 
 import * as factory from './factory'
@@ -20,7 +21,7 @@ const makeDefaultState = (): AppState => {
   const defaultTile = factory.makeTile()
   return {
     activeColor: 3,
-    activePalette: ['#FFFFFF', '#999999', '#444444', '#000000'],
+    activePalette: ['#FFFFFF', '#AAA', '#666', '#000000'],
     activeTile: defaultTile.id,
     panels: {
       TilePanel: { top: 0, left: 0 },
@@ -49,10 +50,16 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return deleteTile(state, action)
     case 'TILE_UPDATED':
       return updateTile(state, action)
+    case 'TILE_DUPLICATED':
+      return duplicateTile(state, action)
     case 'TILE_MAP_CREATED':
       return createTileMap(state, action)
     case 'TILE_MAP_TILE_SET':
       return setMapTile(state, action)
+    case 'TILE_FLIPPED_X':
+      return flipTileX(state, action)
+    case 'TILE_FLIPPED_Y':
+      return flipTileY(state, action)
     case 'TILE_MAP_TILE_CLEARED':
       return clearMapTile(state, action)
     case 'WORKSPACE_RESET':
@@ -199,6 +206,60 @@ const setMapTile = (
             [coords.x]: { $set: tileID },
           },
         },
+      },
+    },
+  })
+}
+
+const duplicateTile = (
+  state: AppState,
+  { payload: { tile } }: Object,
+): AppState => {
+  const newTile = {
+    ...tile,
+    id: factory.makeTile().id,
+  }
+
+  return update(state, {
+    activeTile: { $set: newTile.id },
+    tiles: { $push: [newTile] },
+  })
+}
+
+/* eslint-disable */
+const flipTileX = (
+  state: AppState,
+  { payload: { tileID } }: Object,
+): AppState => {
+  const tileIndex = state.tiles.findIndex(tile => tile.id === tileID)
+  if (tileIndex < 0) {
+    return state
+  }
+
+  const tile = state.tiles[tileIndex]
+  return update(state, {
+    tiles: {
+      [tileIndex]: {
+        grid: { $set: array2D.hflip(tile.grid) },
+      },
+    },
+  })
+}
+
+const flipTileY = (
+  state: AppState,
+  { payload: { tileID } }: Object,
+): AppState => {
+  const tileIndex = state.tiles.findIndex(tile => tile.id === tileID)
+  if (tileIndex < 0) {
+    return state
+  }
+
+  const tile = state.tiles[tileIndex]
+  return update(state, {
+    tiles: {
+      [tileIndex]: {
+        grid: { $set: array2D.vflip(tile.grid) },
       },
     },
   })

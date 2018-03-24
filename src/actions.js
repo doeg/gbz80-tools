@@ -51,6 +51,21 @@ export const updatePanel = ({ id, top, left }: Object): Object => ({
   type: 'PANEL_UPDATED',
 })
 
+export const duplicateTile = (tile: Tile): Object => ({
+  payload: { tile },
+  type: 'TILE_DUPLICATED',
+})
+
+export const flipTileHorizontal = (tileID: UUID): Object => ({
+  payload: { tileID },
+  type: 'TILE_FLIPPED_X',
+})
+
+export const flipTileVertical = (tileID: UUID): Object => ({
+  payload: { tileID },
+  type: 'TILE_FLIPPED_Y',
+})
+
 export const resetWorkspace = (): Object => ({
   type: 'WORKSPACE_RESET',
 })
