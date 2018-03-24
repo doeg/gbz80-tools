@@ -37,7 +37,9 @@ const TileMapPanel = ({ tileMap, ...props }: Props) => {
         </button>
       </div>
       <div className={style.canvasContainer}>
-        <TileMapCanvas />
+        <div>
+          <TileMapCanvas />
+        </div>
         <p className="hint">
           click to place active tile, shift+click to remove tile
         </p>

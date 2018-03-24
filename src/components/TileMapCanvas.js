@@ -102,14 +102,14 @@ class TileMapCanvas extends React.Component<Props, State> {
     const onMouseEnterCell = () => this.onMouseEnterCell(coords)
 
     return (
-      <div
+      <td
         className={style.cell}
         key={`${rowIdx}-${colIdx}`}
         onClick={onClick}
         onMouseEnter={onMouseEnterCell}
       >
         {contents}
-      </div>
+      </td>
     )
   }
 
@@ -120,16 +120,20 @@ class TileMapCanvas extends React.Component<Props, State> {
     }
 
     const rows = tileMap.tiles.map((row, rowIdx) => (
-      <div
+      <tr
         className={style.row}
         key={rowIdx}
         onMouseLeave={this.onMouseLeaveGrid}
       >
         {row.map((cell, colIdx) => this.renderCell(rowIdx, colIdx))}
-      </div>
+      </tr>
     ))
 
-    return <div className={style.grid}>{rows}</div>
+    return (
+      <table className={style.grid}>
+        <tbody>{rows}</tbody>
+      </table>
+    )
   }
 }
 
