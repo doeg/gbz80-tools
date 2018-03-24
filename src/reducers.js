@@ -1,4 +1,5 @@
 // @flow
+import array2D from 'array2d'
 import update from 'immutability-helper'
 
 import * as factory from './factory'
@@ -55,6 +56,10 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return createTileMap(state, action)
     case 'TILE_MAP_TILE_SET':
       return setMapTile(state, action)
+    case 'TILE_FLIPPED_X':
+      return flipTileX(state, action)
+    case 'TILE_FLIPPED_Y':
+      return flipTileY(state, action)
     case 'TILE_MAP_TILE_CLEARED':
       return clearMapTile(state, action)
     case 'WORKSPACE_RESET':
@@ -218,6 +223,45 @@ const duplicateTile = (
   return update(state, {
     activeTile: { $set: newTile.id },
     tiles: { $push: [newTile] },
+  })
+}
+
+/* eslint-disable */
+const flipTileX = (
+  state: AppState,
+  { payload: { tileID } }: Object,
+): AppState => {
+  const tileIndex = state.tiles.findIndex(tile => tile.id === tileID)
+  if (tileIndex < 0) {
+    return state
+  }
+
+  const tile = state.tiles[tileIndex]
+  return update(state, {
+    tiles: {
+      [tileIndex]: {
+        grid: { $set: array2D.hflip(tile.grid) },
+      },
+    },
+  })
+}
+
+const flipTileY = (
+  state: AppState,
+  { payload: { tileID } }: Object,
+): AppState => {
+  const tileIndex = state.tiles.findIndex(tile => tile.id === tileID)
+  if (tileIndex < 0) {
+    return state
+  }
+
+  const tile = state.tiles[tileIndex]
+  return update(state, {
+    tiles: {
+      [tileIndex]: {
+        grid: { $set: array2D.vflip(tile.grid) },
+      },
+    },
   })
 }
 

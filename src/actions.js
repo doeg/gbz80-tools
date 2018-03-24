@@ -56,6 +56,16 @@ export const duplicateTile = (tile: Tile): Object => ({
   type: 'TILE_DUPLICATED',
 })
 
+export const flipTileHorizontal = (tileID: UUID): Object => ({
+  payload: { tileID },
+  type: 'TILE_FLIPPED_X',
+})
+
+export const flipTileVertical = (tileID: UUID): Object => ({
+  payload: { tileID },
+  type: 'TILE_FLIPPED_Y',
+})
+
 export const resetWorkspace = (): Object => ({
   type: 'WORKSPACE_RESET',
 })

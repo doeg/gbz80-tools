@@ -10,6 +10,8 @@ import {
   createTile,
   deleteTile,
   duplicateTile,
+  flipTileHorizontal,
+  flipTileVertical,
   setActiveTile,
 } from '../actions'
 import * as factory from '../factory'
@@ -25,6 +27,8 @@ type DispatchProps = {
   createTile: (tile: Tile) => any,
   deleteTile: (id: UUID) => any,
   duplicateTile: (tile: Tile) => any,
+  flipTileHorizontal: UUID => any,
+  flipTileVertical: UUID => any,
   setActiveTile: string => any,
 }
 
@@ -54,6 +58,16 @@ const TilePanel = ({
       props.duplicateTile(tile)
     }
 
+    const onFlipX = (e: Event) => {
+      e.stopPropagation()
+      props.flipTileHorizontal(id)
+    }
+
+    const onFlipY = (e: Event) => {
+      e.stopPropagation()
+      props.flipTileVertical(id)
+    }
+
     return (
       <li
         className={tileClass}
@@ -65,6 +79,12 @@ const TilePanel = ({
         </div>
         <div className={style.tileName}>{name}</div>
         <div className={style.buttons}>
+          <button onClick={onFlipX} type="button">
+            flipX
+          </button>
+          <button onClick={onFlipY} type="button">
+            flipY
+          </button>
           <button onClick={onClickDuplicate} type="button">
             Copy
           </button>
@@ -99,6 +119,8 @@ const mapDispatch: DispatchProps = {
   createTile,
   deleteTile,
   duplicateTile,
+  flipTileHorizontal,
+  flipTileVertical,
   setActiveTile,
 }
 
