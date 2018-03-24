@@ -6,3 +6,9 @@
 .newMapButton {
   margin-left: auto;
 }
+
+.canvasContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

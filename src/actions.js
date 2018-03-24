@@ -62,19 +62,19 @@ export const createTileMap = (): TileMapCreatedAction => ({
   type: 'TILE_MAP_CREATED',
 })
 
-export const setMapTile = (
+export const setMapTile = (opts: {
   tileMapID: UUID,
   coords: Coords,
   tileID: UUID,
-): TileMapTileSetAction => ({
-  payload: { tileMapID, tileID, coords },
+}): TileMapTileSetAction => ({
+  payload: opts,
   type: 'TILE_MAP_TILE_SET',
 })
 
-export const clearMapTile = (
+export const clearMapTile = (opts: {
   tileMapID: UUID,
   coords: Coords,
-): TileMapTileClearedAction => ({
-  payload: { tileMapID, coords },
+}): TileMapTileClearedAction => ({
+  payload: opts,
   type: 'TILE_MAP_TILE_CLEARED',
 })

@@ -1,27 +1,80 @@
 // @flow
-/* eslint-disable react/prefer-stateless-function, no-unused-vars, react/no-array-index-key */
+/* eslint-disable semi-style, react/no-array-index-key */
 import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './tileMapCanvas.css'
-import { getActiveTileMap } from '../selectors'
-import type { AppState, TileMap } from '../types'
+import PixelGrid from './PixelGrid'
+import { setMapTile, clearMapTile } from '../actions'
+import {
+  getActivePalette,
+  getActiveTileMap,
+  getActiveTile,
+  getTiles,
+} from '../selectors'
+import type { AppState, Palette, Tile, TileMap } from '../types'
 
 type MappedProps = {
+  activePalette: ?Palette,
+  activeTile: ?Tile,
   tileMap: ?TileMap,
+  tiles: Tile[],
 }
 
-type Props = MappedProps
+type DispatchProps = {
+  setMapTile: Function,
+  clearMapTile: Function,
+}
+
+type Props = DispatchProps & MappedProps
 
 class TileMapCanvas extends React.Component<Props> {
   constructor(props: Props) {
     super(props)
-    this.renderCell = this.renderCell.bind(this)
+    ;(this: any).onClickCell = this.onClickCell.bind(this)
+    ;(this: any).renderCell = this.renderCell.bind(this)
+  }
+
+  onClickCell(rowIdx: number, colIdx: number, e: Event) {
+    const { activeTile, tileMap } = this.props
+    if (!activeTile || !tileMap) {
+      return
+    }
+
+    if (e.shiftKey) {
+      this.props.clearMapTile({
+        tileMapID: tileMap.id,
+        coords: { y: rowIdx, x: colIdx },
+      })
+    } else {
+      this.props.setMapTile({
+        tileMapID: tileMap.id,
+        coords: { y: rowIdx, x: colIdx },
+        tileID: activeTile.id,
+      })
+    }
   }
 
   renderCell(rowIdx: number, colIdx: number) {
-    console.log(this, rowIdx, colIdx)
-    return <div className={style.cell} key={`${rowIdx}-${colIdx}`} />
+    const { activePalette, tileMap, tiles } = this.props
+    if (!activePalette || !tileMap) {
+      return null
+    }
+
+    const tileID = tileMap.tiles[rowIdx][colIdx]
+    const tile = (tiles || []).find(t => t.id === tileID)
+
+    let contents = null
+    if (tile) {
+      contents = <PixelGrid grid={tile.grid} palette={activePalette} />
+    }
+
+    const onClick = (e: Event) => this.onClickCell(rowIdx, colIdx, e)
+    return (
+      <div className={style.cell} key={`${rowIdx}-${colIdx}`} onClick={onClick}>
+        {contents}
+      </div>
+    )
   }
 
   render() {
@@ -41,7 +94,15 @@ class TileMapCanvas extends React.Component<Props> {
 }
 
 const mapState = (state: AppState): MappedProps => ({
+  activePalette: getActivePalette(state),
+  activeTile: getActiveTile(state),
   tileMap: getActiveTileMap(state),
+  tiles: getTiles(state),
 })
 
-export default connect(mapState)(TileMapCanvas)
+const mapDispatch: DispatchProps = {
+  setMapTile,
+  clearMapTile,
+}
+
+export default connect(mapState, mapDispatch)(TileMapCanvas)

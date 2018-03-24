@@ -1,5 +1,6 @@
 .grid {
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .pixel {

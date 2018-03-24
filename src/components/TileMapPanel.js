@@ -26,7 +26,7 @@ const TileMapPanel = ({ tileMap, ...props }: Props) => {
   }
 
   return (
-    <Panel height={580} left={200} title={title} top={0} width={520}>
+    <Panel height={740} left={200} title={title} top={0} width={720}>
       <div className={style.controls}>
         <button
           className={style.newMapButton}
@@ -36,7 +36,12 @@ const TileMapPanel = ({ tileMap, ...props }: Props) => {
           + New Tile Map
         </button>
       </div>
-      <TileMapCanvas />
+      <div className={style.canvasContainer}>
+        <TileMapCanvas />
+        <p className="hint">
+          click to place active tile, shift+click to remove tile
+        </p>
+      </div>
     </Panel>
   )
 }

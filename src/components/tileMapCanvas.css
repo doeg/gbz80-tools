@@ -1,6 +1,7 @@
 .grid {
   border-collapse: collapse;
   display: table;
+  table-layout: fixed;
 }
 
 .row {
@@ -11,8 +12,8 @@
   border: solid 1px #CCC;
   cursor: crosshair;
   display: table-cell;
-  height: 24px;
-  width: 24px;
+  height: 32px;
+  width: 32px;
 
   &:hover {
     border-color: fuchsia;
