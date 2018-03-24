@@ -1,0 +1,7 @@
+.controls {
+  display: flex;
+}
+
+.newMapButton {
+  margin-left: auto;
+}

@@ -1,5 +1,5 @@
 // @flow
-
+import * as factory from './factory'
 import type {
   ActiveColorSetAction,
   ActiveTileSetAction,
@@ -10,7 +10,6 @@ import type {
   TileCreatedAction,
   TileDeletedAction,
   TileUpdatedAction,
-  TileMap,
   TileMapTileClearedAction,
   TileMapCreatedAction,
   TileMapTileSetAction,
@@ -56,8 +55,10 @@ export const resetWorkspace = (): Object => ({
   type: 'WORKSPACE_RESET',
 })
 
-export const createTileMap = (tileMap: TileMap): TileMapCreatedAction => ({
-  payload: { tileMap },
+export const createTileMap = (): TileMapCreatedAction => ({
+  payload: {
+    tileMap: factory.makeTileMap(),
+  },
   type: 'TILE_MAP_CREATED',
 })
 
