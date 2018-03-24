@@ -1,14 +1,18 @@
 // @flow
-
+import * as factory from './factory'
 import type {
   ActiveColorSetAction,
   ActiveTileSetAction,
   Color,
+  Coords,
   Tile,
   TileClearedAction,
   TileCreatedAction,
   TileDeletedAction,
   TileUpdatedAction,
+  TileMapTileClearedAction,
+  TileMapCreatedAction,
+  TileMapTileSetAction,
   UUID,
 } from './types'
 
@@ -49,4 +53,28 @@ export const updatePanel = ({ id, top, left }: Object): Object => ({
 
 export const resetWorkspace = (): Object => ({
   type: 'WORKSPACE_RESET',
+})
+
+export const createTileMap = (): TileMapCreatedAction => ({
+  payload: {
+    tileMap: factory.makeTileMap({ height: 18, width: 20 }),
+  },
+  type: 'TILE_MAP_CREATED',
+})
+
+export const setMapTile = (opts: {
+  tileMapID: UUID,
+  coords: Coords,
+  tileID: UUID,
+}): TileMapTileSetAction => ({
+  payload: opts,
+  type: 'TILE_MAP_TILE_SET',
+})
+
+export const clearMapTile = (opts: {
+  tileMapID: UUID,
+  coords: Coords,
+}): TileMapTileClearedAction => ({
+  payload: opts,
+  type: 'TILE_MAP_TILE_CLEARED',
 })

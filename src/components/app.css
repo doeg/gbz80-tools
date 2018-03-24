@@ -52,3 +52,10 @@ h1 {
   margin: 0 auto;
   max-width: 960px;
 }
+
+:global {
+  .hint {
+    color: #777;
+    font-size: 12px;
+  }
+}
