@@ -20,7 +20,7 @@ const makeDefaultState = (): AppState => {
   const defaultTile = factory.makeTile()
   return {
     activeColor: 3,
-    activePalette: ['#FFFFFF', '#999999', '#444444', '#000000'],
+    activePalette: ['#FFFFFF', '#AAA', '#666', '#000000'],
     activeTile: defaultTile.id,
     panels: {
       TilePanel: { top: 0, left: 0 },
