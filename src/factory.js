@@ -26,8 +26,21 @@ export const makeTile = (): Tile => ({
   name: 'untitled',
 })
 
-export const makeTileMap = (): TileMap => ({
-  id: uuid(),
-  name: null,
-  tiles: [[null]],
-})
+export const makeTileMap = (opts: {
+  height: number,
+  width: number,
+}): TileMap => {
+  const tiles = []
+  for (let y = 0; y < opts.height; y++) {
+    tiles[y] = new Array(opts.width)
+    for (let x = 0; x < opts.width; x++) {
+      tiles[y][x] = null
+    }
+  }
+
+  return {
+    id: uuid(),
+    name: null,
+    tiles,
+  }
+}

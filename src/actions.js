@@ -57,7 +57,7 @@ export const resetWorkspace = (): Object => ({
 
 export const createTileMap = (): TileMapCreatedAction => ({
   payload: {
-    tileMap: factory.makeTileMap(),
+    tileMap: factory.makeTileMap({ height: 18, width: 20 }),
   },
   type: 'TILE_MAP_CREATED',
 })

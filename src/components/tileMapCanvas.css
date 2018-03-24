@@ -1,0 +1,21 @@
+.grid {
+  border-collapse: collapse;
+  display: table;
+}
+
+.row {
+  display: table-row;
+}
+
+.cell {
+  border: solid 1px #CCC;
+  cursor: crosshair;
+  display: table-cell;
+  height: 24px;
+  width: 24px;
+
+  &:hover {
+    border-color: fuchsia;
+    border-style: double;
+  }
+}

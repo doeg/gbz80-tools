@@ -26,7 +26,7 @@ const TileMapPanel = ({ tileMap, ...props }: Props) => {
   }
 
   return (
-    <Panel height={720} left={200} title={title} top={0} width={800}>
+    <Panel height={580} left={200} title={title} top={0} width={520}>
       <div className={style.controls}>
         <button
           className={style.newMapButton}
