@@ -6,8 +6,14 @@ import { connect } from 'react-redux'
 import style from './tileMapCanvasPanel.css'
 import CanvasSizeInput from './CanvasSizeInput'
 import Panel from './Panel'
+import PixelGrid from './PixelGrid'
 import { setTileMapTile } from '../actions'
-import { getActiveTileID, getActiveTileMap } from '../selectors'
+import {
+  getActivePalette,
+  getActiveTileID,
+  getActiveTileMap,
+  getTiles,
+} from '../selectors'
 
 type MappedProps = {
   tileMap: ?TileMap,
@@ -23,6 +29,7 @@ class TileMapCanvasPanel extends React.Component<Props> {
   constructor(props: Props) {
     super(props)
     this.onClickCell = this.onClickCell.bind(this)
+    this.renderCell = this.renderCell.bind(this)
   }
 
   onClickCell(row, col) {
@@ -41,24 +48,30 @@ class TileMapCanvasPanel extends React.Component<Props> {
     })
   }
 
+  renderCell(row, col) {
+    const { activePalette, tiles, tileMap } = this.props
+    const onClick = this.onClickCell(row, col)
+
+    const tileID = tileMap.map[row][col]
+    const tile = tiles.find(t => t.id === tileID)
+    return (
+      <div className={style.cell} key={`${row}-${col}`}>
+        <PixelGrid grid={tile.grid} palette={activePalette} />
+      </div>
+    )
+  }
+
   render() {
     const { tileMap } = this.props
     const title = tileMap ? `${tileMap.name} - Tile Map` : 'Tile Map'
 
     return (
-      <Panel height={600} id="TileMapCanvasPanel" title={title} width={540}>
+      <Panel height={720} id="TileMapCanvasPanel" title={title} width={720}>
         <CanvasSizeInput />
         <div className={style.grid}>
           {tileMap.map.map((row, rdx) => (
-            <div className={style.row}>
-              {row.map((cell, cdx) => (
-                <div
-                  className={style.cell}
-                  onClick={() => this.onClickCell(rdx, cdx)}
-                >
-                  {tileMap.map[rdx][cdx]}
-                </div>
-              ))}
+            <div className={style.row} key={rdx}>
+              {row.map((cell, cdx) => this.renderCell(rdx, cdx))}
             </div>
           ))}
         </div>
@@ -68,8 +81,10 @@ class TileMapCanvasPanel extends React.Component<Props> {
 }
 
 const mapState = (state: AppState): MappedProps => ({
+  activePalette: getActivePalette(state),
   activeTileID: getActiveTileID(state),
   tileMap: getActiveTileMap(state),
+  tiles: getTiles(state),
 })
 
 const mapDispatch = {

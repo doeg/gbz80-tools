@@ -1,5 +1,7 @@
 // @flow
-import type { AppState, Tile, TileMap, UUID } from './types'
+import type { AppState, Palette, Tile, TileMap, UUID } from './types'
+
+export const getTiles = ({ tiles }: AppState): Tile[] => tiles
 
 export const getActiveTileID = ({ activeTile }: AppState): ?UUID => activeTile
 
@@ -12,3 +14,6 @@ export const getPanelCoords = (state: AppState, panelID: string): Object =>
 // eslint-disable-next-line no-confusing-arrow
 export const getActiveTileMap = (state: AppState): ?TileMap =>
   state.tileMaps.length ? state.tileMaps[0] : null
+
+export const getActivePalette = ({ activePalette }: AppState): ?Palette =>
+  activePalette
