@@ -1,5 +1,5 @@
 // @flow
-/* eslint-disable semi-style, react/no-array-index-key */
+/* eslint-disable semi-style, react/no-array-index-key, object-curly-newline */
 import * as React from 'react'
 import { connect } from 'react-redux'
 
@@ -12,7 +12,7 @@ import {
   getActiveTile,
   getTiles,
 } from '../selectors'
-import type { AppState, Palette, Tile, TileMap } from '../types'
+import type { AppState, Coords, Palette, Tile, TileMap } from '../types'
 
 type MappedProps = {
   activePalette: ?Palette,
@@ -26,13 +26,23 @@ type DispatchProps = {
   clearMapTile: Function,
 }
 
+type State = {
+  hoverCell: ?Coords,
+}
+
 type Props = DispatchProps & MappedProps
 
-class TileMapCanvas extends React.Component<Props> {
+class TileMapCanvas extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     ;(this: any).onClickCell = this.onClickCell.bind(this)
+    ;(this: any).onMouseEnterCell = this.onMouseEnterCell.bind(this)
+    ;(this: any).onMouseLeaveGrid = this.onMouseLeaveGrid.bind(this)
     ;(this: any).renderCell = this.renderCell.bind(this)
+
+    this.state = {
+      hoverCell: null,
+    }
   }
 
   onClickCell(rowIdx: number, colIdx: number, e: Event) {
@@ -41,37 +51,63 @@ class TileMapCanvas extends React.Component<Props> {
       return
     }
 
+    const coords = { x: colIdx, y: rowIdx }
+
     if (e.shiftKey) {
       this.props.clearMapTile({
         tileMapID: tileMap.id,
-        coords: { y: rowIdx, x: colIdx },
+        coords,
       })
     } else {
       this.props.setMapTile({
         tileMapID: tileMap.id,
-        coords: { y: rowIdx, x: colIdx },
+        coords,
         tileID: activeTile.id,
       })
     }
   }
 
+  onMouseEnterCell(coords: Coords) {
+    this.setState({ hoverCell: coords })
+  }
+
+  onMouseLeaveGrid() {
+    this.setState({ hoverCell: null })
+  }
+
   renderCell(rowIdx: number, colIdx: number) {
-    const { activePalette, tileMap, tiles } = this.props
+    const { activePalette, activeTile, tileMap, tiles } = this.props
     if (!activePalette || !tileMap) {
       return null
+    }
+
+    const coords = { x: colIdx, y: rowIdx }
+    const { hoverCell } = this.state
+    let isHovered = false
+    if (hoverCell) {
+      isHovered = coords.y === hoverCell.y && coords.x === hoverCell.x
     }
 
     const tileID = tileMap.tiles[rowIdx][colIdx]
     const tile = (tiles || []).find(t => t.id === tileID)
 
     let contents = null
-    if (tile) {
+    if (isHovered && activeTile) {
+      contents = <PixelGrid grid={activeTile.grid} palette={activePalette} />
+    } else if (tile) {
       contents = <PixelGrid grid={tile.grid} palette={activePalette} />
     }
 
     const onClick = (e: Event) => this.onClickCell(rowIdx, colIdx, e)
+    const onMouseEnterCell = () => this.onMouseEnterCell(coords)
+
     return (
-      <div className={style.cell} key={`${rowIdx}-${colIdx}`} onClick={onClick}>
+      <div
+        className={style.cell}
+        key={`${rowIdx}-${colIdx}`}
+        onClick={onClick}
+        onMouseEnter={onMouseEnterCell}
+      >
         {contents}
       </div>
     )
@@ -84,7 +120,11 @@ class TileMapCanvas extends React.Component<Props> {
     }
 
     const rows = tileMap.tiles.map((row, rowIdx) => (
-      <div className={style.row} key={rowIdx}>
+      <div
+        className={style.row}
+        key={rowIdx}
+        onMouseLeave={this.onMouseLeaveGrid}
+      >
         {row.map((cell, colIdx) => this.renderCell(rowIdx, colIdx))}
       </div>
     ))
