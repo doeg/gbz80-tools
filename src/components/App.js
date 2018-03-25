@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import style from './app.css'
 import CanvasPanel from './CanvasPanel'
+import HotkeysPanel from './HotkeysPanel'
 import TileMapPanel from './TileMapPanel'
 import TilePanel from './TilePanel'
 import Workspace from './Workspace'
@@ -35,6 +36,7 @@ const App = (props: Props) => (
       <CanvasPanel />
       <TilePanel />
       <TileMapPanel />
+      <HotkeysPanel />
     </Workspace>
   </div>
 )

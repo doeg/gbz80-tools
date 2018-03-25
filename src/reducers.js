@@ -24,6 +24,7 @@ const makeDefaultState = (): AppState => {
     activePalette: ['#FFFFFF', '#AAA', '#666', '#000000'],
     activeTile: defaultTile.id,
     panels: {
+      HotkeysPanel: { top: 0, right: 0 },
       TilePanel: { top: 0, left: 0 },
       CanvasPanel: { top: 0, left: 260 },
     },
