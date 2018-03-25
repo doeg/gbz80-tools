@@ -1,0 +1,27 @@
+.tools {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+}
+
+.tool {
+  margin: 4px 0;
+  width: 100%;
+}
+
+.tool button {
+  background: none;
+  cursor: pointer;
+  display: block;
+  outline: none;
+  padding: 4px 8px;
+  text-align: left;
+  width: 100%;
+
+  &:hover {
+    border-color: fuchsia;
+    color: fuchsia;
+  }
+}

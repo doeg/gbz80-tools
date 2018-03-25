@@ -6,6 +6,7 @@ import style from './app.css'
 import CanvasPanel from './CanvasPanel'
 import TileMapPanel from './TileMapPanel'
 import TilePanel from './TilePanel'
+import ToolPanel from './ToolPanel'
 import Workspace from './Workspace'
 import { clearTile, resetWorkspace } from '../actions'
 import { getActiveTileID } from '../selectors'
@@ -35,6 +36,7 @@ const App = (props: Props) => (
       <CanvasPanel />
       <TilePanel />
       <TileMapPanel />
+      <ToolPanel />
     </Workspace>
   </div>
 )
