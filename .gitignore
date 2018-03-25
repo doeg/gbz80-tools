@@ -62,3 +62,7 @@ typings/
 
 # Built files
 dist/
+
+# z80 output
+*.sym
+*.o
