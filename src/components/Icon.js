@@ -14,6 +14,8 @@ const icons = {
   pencil: 'FaPencil',
   pointer: 'FaMousePointer',
   wand: 'IoWand',
+  zoomIn: 'FaSearchPlus',
+  zoomOut: 'FaSearchMinus',
 }
 
 type Props = {

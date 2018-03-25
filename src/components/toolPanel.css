@@ -1,9 +1,12 @@
+.container {
+  padding: 16px;
+}
+
 .tools {
   align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 16px;
 }
 
 .tool {
@@ -24,4 +27,27 @@
     border-color: fuchsia;
     color: fuchsia;
   }
+}
+
+.palette {
+  margin: 16px 0;
+}
+
+.activePalette {
+  margin: 16px 0;
+  position: relative;
+}
+
+.foreground,
+.background {
+  border: solid 1px #000;
+  height: 40px;
+  width: 40px;
+}
+
+.foreground {
+  border-color: fuchsia;
+  left: 20px;
+  position: absolute;
+  top: 20px;
 }
