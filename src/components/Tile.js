@@ -10,6 +10,7 @@ import * as select from '../selectors'
 import type { AppState, Color, Coords, Palette, Tile, UUID } from '../types'
 
 type OwnProps = {
+  editable?: boolean,
   id: UUID,
 }
 
@@ -41,7 +42,11 @@ class Canvas extends React.Component<Props, State> {
   }
 
   updatePixel({ x, y }: Coords) {
-    const { activeColor } = this.props
+    const { activeColor, editable } = this.props
+    if (!editable) {
+      return
+    }
+
     const tile = cloneDeep(this.props.tile)
     tile.grid[y][x] = {
       ...tile.grid[y][x],
