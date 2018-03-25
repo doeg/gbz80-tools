@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
-import style from './canvas.css'
+import style from './tile.css'
 import PixelGrid from './PixelGrid'
 import { updateTile } from '../actions'
 import * as select from '../selectors'

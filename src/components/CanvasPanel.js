@@ -3,13 +3,13 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './canvasPanel.css'
-import Canvas from './Canvas'
+import Tile from './Tile'
 import Panel from './Panel'
 import SelectPalette from './SelectPalette'
 
 import { clearTile } from '../actions'
 import * as select from '../selectors'
-import type { AppState, PixelGrid, Tile, UUID } from '../types'
+import type { AppState, PixelGrid, Tile as TileObj, UUID } from '../types'
 import * as convert from '../util/convert'
 
 // $FlowFixMe
@@ -18,7 +18,7 @@ const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
   canvas.map(row => row.map(({ color }) => color))
 
 type MappedProps = {
-  activeTile: ?Tile,
+  activeTile: ?TileObj,
 }
 
 type DispatchProps = {
@@ -53,7 +53,7 @@ const CanvasPanel = (props: Props) => {
             </button>
           </div>
         </div>
-        <Canvas id={activeTile.id} />
+        <Tile id={activeTile.id} />
 
         <h3>{activeTile.name}</h3>
         <pre>{hex}</pre>

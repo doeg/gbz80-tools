@@ -4,7 +4,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './tileMapCanvas.css'
-import Canvas from './Canvas'
+import Tile from './Tile'
 import { setMapTile, clearMapTile } from '../actions'
 import {
   getActivePalette,
@@ -12,13 +12,19 @@ import {
   getActiveTile,
   getTiles,
 } from '../selectors'
-import type { AppState, Coords, Palette, Tile, TileMap } from '../types'
+import type {
+  AppState,
+  Coords,
+  Palette,
+  Tile as TileObj,
+  TileMap,
+} from '../types'
 
 type MappedProps = {
   activePalette: ?Palette,
-  activeTile: ?Tile,
+  activeTile: ?TileObj,
   tileMap: ?TileMap,
-  tiles: Tile[],
+  tiles: TileObj[],
 }
 
 type DispatchProps = {
@@ -93,9 +99,9 @@ class TileMapCanvas extends React.Component<Props, State> {
 
     let contents = null
     if (isHovered && activeTile) {
-      contents = <Canvas id={activeTile.id} />
+      contents = <Tile id={activeTile.id} />
     } else if (tile) {
-      contents = <Canvas id={tile.id} />
+      contents = <Tile id={tile.id} />
     }
 
     const onClick = (e: Event) => this.onClickCell(rowIdx, colIdx, e)
