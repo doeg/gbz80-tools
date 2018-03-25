@@ -13,5 +13,8 @@ export const getActiveTileMap = (state: AppState): ?TileMap => state.tileMaps[0]
 
 export const getTiles = (state: AppState): Tile[] => state.tiles
 
+export const getTile = (state: AppState, id: UUID): ?Tile =>
+  getTiles(state).find(t => t.id === id) || null
+
 export const getActivePalette = (state: AppState): ?Palette =>
   state.activePalette

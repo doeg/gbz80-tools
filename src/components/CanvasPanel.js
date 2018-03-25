@@ -8,11 +8,17 @@ import Panel from './Panel'
 import SelectPalette from './SelectPalette'
 
 import { clearTile } from '../actions'
-import { getActiveTileID } from '../selectors'
-import type { AppState, UUID } from '../types'
+import * as select from '../selectors'
+import type { AppState, PixelGrid, Tile, UUID } from '../types'
+import * as convert from '../util/convert'
+
+// $FlowFixMe
+const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
+  // $FlowFixMe
+  canvas.map(row => row.map(({ color }) => color))
 
 type MappedProps = {
-  activeTileID: ?UUID,
+  activeTile: ?Tile,
 }
 
 type DispatchProps = {
@@ -22,11 +28,19 @@ type DispatchProps = {
 type Props = DispatchProps & MappedProps
 
 const CanvasPanel = (props: Props) => {
-  const onClear = () => {
-    if (props.activeTileID) {
-      props.clearTile(props.activeTileID)
-    }
+  const { activeTile } = props
+  if (!activeTile) {
+    return null
   }
+
+  const onClear = () => {
+    props.clearTile(activeTile.id)
+  }
+
+  const hex = convert
+    .toHex(toColorGrid(activeTile.grid))
+    .map(h => `${h}`)
+    .join(' ')
 
   return (
     <Panel id="CanvasPanel" title="Tile Canvas">
@@ -39,14 +53,17 @@ const CanvasPanel = (props: Props) => {
             </button>
           </div>
         </div>
-        <Canvas height={8} width={8} />
+        <Canvas id={activeTile.id} />
+
+        <h3>{activeTile.name}</h3>
+        <pre>{hex}</pre>
       </div>
     </Panel>
   )
 }
 
 const mapState = (state: AppState) => ({
-  activeTileID: getActiveTileID(state),
+  activeTile: select.getActiveTile(state),
 })
 
 const mapDispatch = {

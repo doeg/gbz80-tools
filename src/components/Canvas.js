@@ -6,24 +6,19 @@ import { connect } from 'react-redux'
 import style from './canvas.css'
 import PixelGrid from './PixelGrid'
 import { updateTile } from '../actions'
-import { getActiveTile } from '../selectors'
-import type { AppState, Color, Coords, Palette, Tile } from '../types'
-import * as convert from '../util/convert'
-
-// $FlowFixMe
-const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
-  // $FlowFixMe
-  canvas.map(row => row.map(({ color }) => color))
+import * as select from '../selectors'
+import type { AppState, Color, Coords, Palette, Tile, UUID } from '../types'
 
 type OwnProps = {
   height: number, // in pixels
+  id: UUID,
   width: number, // in pixels
 }
 
 type MappedProps = {
   activeColor: Color,
   activePalette: Palette,
-  activeTile: Tile,
+  tile: Tile,
 }
 
 type DispatchProps = {
@@ -49,25 +44,20 @@ class Canvas extends React.Component<Props, State> {
 
   updatePixel({ x, y }: Coords) {
     const { activeColor } = this.props
-    const activeTile = cloneDeep(this.props.activeTile)
-    activeTile.grid[y][x] = {
-      ...activeTile.grid[y][x],
+    const tile = cloneDeep(this.props.tile)
+    tile.grid[y][x] = {
+      ...tile.grid[y][x],
       color: activeColor,
     }
-    this.props.updateTile(activeTile)
+    this.props.updateTile(tile)
   }
 
   render() {
-    const { activePalette, activeTile } = this.props
+    const { activePalette, tile } = this.props
 
-    if (!activeTile) {
+    if (!tile) {
       return <div>select a tile</div>
     }
-
-    const hex = convert
-      .toHex(toColorGrid(activeTile.grid))
-      .map(h => `${h}`)
-      .join(' ')
 
     const onMouseDown = () => this.setState({ isClicking: true })
     const onMouseUp = () => this.setState({ isClicking: false })
@@ -81,24 +71,22 @@ class Canvas extends React.Component<Props, State> {
       <div className={style.container}>
         <PixelGrid
           className={style.canvas}
-          grid={activeTile.grid}
+          grid={tile.grid}
           onClickPixel={this.updatePixel}
           onMouseDown={onMouseDown}
           onMouseEnterPixel={onMouseEnterPixel}
           onMouseUp={onMouseUp}
           palette={activePalette}
         />
-        <h3>{activeTile.name}</h3>
-        <pre>{hex}</pre>
       </div>
     )
   }
 }
 
-const mapState = (state: AppState) => ({
+const mapState = (state: AppState, { id }: OwnProps) => ({
   activeColor: state.activeColor,
   activePalette: state.activePalette,
-  activeTile: getActiveTile(state),
+  tile: select.getTile(state, id),
 })
 
 const mapDispatch: DispatchProps = {
