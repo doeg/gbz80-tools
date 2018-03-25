@@ -10,9 +10,7 @@ import * as select from '../selectors'
 import type { AppState, Color, Coords, Palette, Tile, UUID } from '../types'
 
 type OwnProps = {
-  height: number, // in pixels
   id: UUID,
-  width: number, // in pixels
 }
 
 type MappedProps = {
@@ -56,7 +54,7 @@ class Canvas extends React.Component<Props, State> {
     const { activePalette, tile } = this.props
 
     if (!tile) {
-      return <div>select a tile</div>
+      return null
     }
 
     const onMouseDown = () => this.setState({ isClicking: true })
@@ -68,7 +66,7 @@ class Canvas extends React.Component<Props, State> {
     }
 
     return (
-      <div className={style.container}>
+      <div>
         <PixelGrid
           className={style.canvas}
           grid={tile.grid}
