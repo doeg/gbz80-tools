@@ -1,0 +1,20 @@
+.list {
+  list-style-type: none;
+  margin: 0;
+  padding: 16px;
+}
+
+.list li {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+
+.hotkey {
+  background: #EEE;
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 8px;
+  text-transform: uppercase;
+}
