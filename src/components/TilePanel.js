@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import style from './tilePanel.css'
 import Panel from './Panel'
-import PixelGrid from './PixelGrid'
+import Tile from './Tile'
 import {
   createTile,
   deleteTile,
@@ -15,18 +15,18 @@ import {
   setActiveTile,
 } from '../actions'
 import * as factory from '../factory'
-import type { AppState, Palette, Tile, UUID } from '../types'
+import type { AppState, Palette, Tile as TileObj, UUID } from '../types'
 
 type MappedProps = {
   activePalette: Palette,
   activeTile: ?string,
-  tiles: Tile[],
+  tiles: TileObj[],
 }
 
 type DispatchProps = {
-  createTile: (tile: Tile) => any,
+  createTile: (tile: TileObj) => any,
   deleteTile: (id: UUID) => any,
-  duplicateTile: (tile: Tile) => any,
+  duplicateTile: (tile: TileObj) => any,
   flipTileHorizontal: UUID => any,
   flipTileVertical: UUID => any,
   setActiveTile: string => any,
@@ -43,8 +43,8 @@ const TilePanel = ({
     props.createTile(newTile)
   }
 
-  const renderTile = (tile: Tile) => {
-    const { grid, id, name } = tile
+  const renderTile = (tile: TileObj) => {
+    const { id, name } = tile
     const tileClass = cx({ [style.active]: id === activeTile })
 
     const onClickDelete = (e: Event) => {
@@ -75,7 +75,7 @@ const TilePanel = ({
         onClick={() => props.setActiveTile(id)}
       >
         <div className={style.gridContainer}>
-          <PixelGrid grid={grid} palette={activePalette} />
+          <Tile id={id} />
         </div>
         <div className={style.tileName}>{name}</div>
         <div className={style.buttons}>

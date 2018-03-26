@@ -1,22 +1,19 @@
 :root {
-  --pixelSize: 24px;
-}
-
-.container {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  --pixelSize: 4px;
 }
 
 .canvas {
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .canvas td {
-  border: solid 1px #ddd;
   cursor: crosshair;
   height: var(--pixelSize);
   text-align: center;
   width: var(--pixelSize);
+}
+
+.canvas.showBorders td {
+  border: solid 1px #ddd;
 }

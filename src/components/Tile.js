@@ -1,29 +1,27 @@
 // @flow
+import cx from 'classnames'
 import cloneDeep from 'lodash/cloneDeep'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
-import style from './canvas.css'
-import PixelGrid from './PixelGrid'
+import style from './tile.css'
+import Grid from './Grid'
 import { updateTile } from '../actions'
-import { getActiveTile } from '../selectors'
-import type { AppState, Color, Coords, Palette, Tile } from '../types'
-import * as convert from '../util/convert'
-
-// $FlowFixMe
-const toColorGrid = (canvas: PixelGrid): Array<Array<number>> =>
-  // $FlowFixMe
-  canvas.map(row => row.map(({ color }) => color))
+import * as select from '../selectors'
+import type { AppState, Color, Coords, Palette, Tile, UUID } from '../types'
 
 type OwnProps = {
-  height: number, // in pixels
-  width: number, // in pixels
+  editable?: boolean,
+  id: UUID,
+  // The rendered height and width of each "pixel" in the tile.
+  size?: number,
+  showBorders?: boolean,
 }
 
 type MappedProps = {
   activeColor: Color,
   activePalette: Palette,
-  activeTile: Tile,
+  tile: Tile,
 }
 
 type DispatchProps = {
@@ -48,26 +46,25 @@ class Canvas extends React.Component<Props, State> {
   }
 
   updatePixel({ x, y }: Coords) {
-    const { activeColor } = this.props
-    const activeTile = cloneDeep(this.props.activeTile)
-    activeTile.grid[y][x] = {
-      ...activeTile.grid[y][x],
+    const { activeColor, editable } = this.props
+    if (!editable) {
+      return
+    }
+
+    const tile = cloneDeep(this.props.tile)
+    tile.grid[y][x] = {
+      ...tile.grid[y][x],
       color: activeColor,
     }
-    this.props.updateTile(activeTile)
+    this.props.updateTile(tile)
   }
 
   render() {
-    const { activePalette, activeTile } = this.props
+    const { activePalette, showBorders, tile } = this.props
 
-    if (!activeTile) {
-      return <div>select a tile</div>
+    if (!tile) {
+      return null
     }
-
-    const hex = convert
-      .toHex(toColorGrid(activeTile.grid))
-      .map(h => `${h}`)
-      .join(' ')
 
     const onMouseDown = () => this.setState({ isClicking: true })
     const onMouseUp = () => this.setState({ isClicking: false })
@@ -77,28 +74,31 @@ class Canvas extends React.Component<Props, State> {
       }
     }
 
+    const gridClass = cx(style.canvas, {
+      [style.showBorders]: showBorders,
+    })
+
     return (
-      <div className={style.container}>
-        <PixelGrid
-          className={style.canvas}
-          grid={activeTile.grid}
+      <div>
+        <Grid
+          className={gridClass}
+          grid={tile.grid}
           onClickPixel={this.updatePixel}
           onMouseDown={onMouseDown}
           onMouseEnterPixel={onMouseEnterPixel}
           onMouseUp={onMouseUp}
           palette={activePalette}
+          size={this.props.size}
         />
-        <h3>{activeTile.name}</h3>
-        <pre>{hex}</pre>
       </div>
     )
   }
 }
 
-const mapState = (state: AppState) => ({
+const mapState = (state: AppState, { id }: OwnProps) => ({
   activeColor: state.activeColor,
   activePalette: state.activePalette,
-  activeTile: getActiveTile(state),
+  tile: select.getTile(state, id),
 })
 
 const mapDispatch: DispatchProps = {

@@ -4,7 +4,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './tileMapCanvas.css'
-import PixelGrid from './PixelGrid'
+import Tile from './Tile'
 import { setMapTile, clearMapTile } from '../actions'
 import {
   getActivePalette,
@@ -12,13 +12,19 @@ import {
   getActiveTile,
   getTiles,
 } from '../selectors'
-import type { AppState, Coords, Palette, Tile, TileMap } from '../types'
+import type {
+  AppState,
+  Coords,
+  Palette,
+  Tile as TileObj,
+  TileMap,
+} from '../types'
 
 type MappedProps = {
   activePalette: ?Palette,
-  activeTile: ?Tile,
+  activeTile: ?TileObj,
   tileMap: ?TileMap,
-  tiles: Tile[],
+  tiles: TileObj[],
 }
 
 type DispatchProps = {
@@ -93,9 +99,9 @@ class TileMapCanvas extends React.Component<Props, State> {
 
     let contents = null
     if (isHovered && activeTile) {
-      contents = <PixelGrid grid={activeTile.grid} palette={activePalette} />
+      contents = <Tile id={activeTile.id} size={4} />
     } else if (tile) {
-      contents = <PixelGrid grid={tile.grid} palette={activePalette} />
+      contents = <Tile id={tile.id} size={4} />
     }
 
     const onClick = (e: Event) => this.onClickCell(rowIdx, colIdx, e)
