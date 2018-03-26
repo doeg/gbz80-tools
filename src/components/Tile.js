@@ -4,7 +4,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 
 import style from './tile.css'
-import PixelGrid from './PixelGrid'
+import Grid from './Grid'
 import { updateTile } from '../actions'
 import * as select from '../selectors'
 import type { AppState, Color, Coords, Palette, Tile, UUID } from '../types'
@@ -74,7 +74,7 @@ class Canvas extends React.Component<Props, State> {
 
     return (
       <div>
-        <PixelGrid
+        <Grid
           className={style.canvas}
           grid={tile.grid}
           onClickPixel={this.updatePixel}
