@@ -8,9 +8,12 @@
 }
 
 .canvas td {
-  /* border: solid 1px #ddd; */
   cursor: crosshair;
   height: var(--pixelSize);
   text-align: center;
   width: var(--pixelSize);
+}
+
+.canvas.showBorders td {
+  border: solid 1px #ddd;
 }

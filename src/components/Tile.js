@@ -1,4 +1,5 @@
 // @flow
+import cx from 'classnames'
 import cloneDeep from 'lodash/cloneDeep'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -14,6 +15,7 @@ type OwnProps = {
   id: UUID,
   // The rendered height and width of each "pixel" in the tile.
   size?: number,
+  showBorders?: boolean,
 }
 
 type MappedProps = {
@@ -58,7 +60,7 @@ class Canvas extends React.Component<Props, State> {
   }
 
   render() {
-    const { activePalette, tile } = this.props
+    const { activePalette, showBorders, tile } = this.props
 
     if (!tile) {
       return null
@@ -72,10 +74,14 @@ class Canvas extends React.Component<Props, State> {
       }
     }
 
+    const gridClass = cx(style.canvas, {
+      [style.showBorders]: showBorders,
+    })
+
     return (
       <div>
         <Grid
-          className={style.canvas}
+          className={gridClass}
           grid={tile.grid}
           onClickPixel={this.updatePixel}
           onMouseDown={onMouseDown}
