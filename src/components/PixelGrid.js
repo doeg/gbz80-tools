@@ -17,6 +17,7 @@ type Props = {
   onClickPixel?: (c: Coords, p: Pixel) => any,
   onMouseEnterPixel?: (c: Coords, p: Pixel) => any,
   palette: Palette,
+  size?: number,
 }
 
 const PixelGrid = ({
@@ -25,6 +26,7 @@ const PixelGrid = ({
   onClickPixel,
   onMouseEnterPixel,
   palette,
+  size,
   ...props
 }: Props) => {
   const rows = grid.map((row: Pixel[], y: number) => {
@@ -48,23 +50,21 @@ const PixelGrid = ({
           key={JSON.stringify(coords)}
           onClick={onClick}
           onMouseEnter={onMouseEnter}
-          style={{ backgroundColor: palette[pixel.color] }}
+          style={{
+            backgroundColor: palette[pixel.color],
+            height: size,
+            width: size,
+          }}
         />
       )
     })
 
-    return (
-      <tr key={y}>
-        {pixels}
-      </tr>
-    )
+    return <tr key={y}>{pixels}</tr>
   })
 
   return (
     <table className={cx(style.grid, className)} {...props}>
-      <tbody>
-        {rows}
-      </tbody>
+      <tbody>{rows}</tbody>
     </table>
   )
 }
@@ -73,6 +73,7 @@ PixelGrid.defaultProps = {
   className: '',
   onClickPixel: () => {},
   onMouseEnterPixel: () => {},
+  size: 4,
 }
 
 export default PixelGrid

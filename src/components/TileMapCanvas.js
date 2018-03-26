@@ -99,9 +99,9 @@ class TileMapCanvas extends React.Component<Props, State> {
 
     let contents = null
     if (isHovered && activeTile) {
-      contents = <Tile id={activeTile.id} />
+      contents = <Tile id={activeTile.id} size={4} />
     } else if (tile) {
-      contents = <Tile id={tile.id} />
+      contents = <Tile id={tile.id} size={4} />
     }
 
     const onClick = (e: Event) => this.onClickCell(rowIdx, colIdx, e)

@@ -53,7 +53,7 @@ const CanvasPanel = (props: Props) => {
             </button>
           </div>
         </div>
-        <Tile editable id={activeTile.id} />
+        <Tile editable id={activeTile.id} size={24} />
 
         <h3>{activeTile.name}</h3>
         <pre>{hex}</pre>

@@ -12,6 +12,8 @@ import type { AppState, Color, Coords, Palette, Tile, UUID } from '../types'
 type OwnProps = {
   editable?: boolean,
   id: UUID,
+  // The rendered height and width of each "pixel" in the tile.
+  size?: number,
 }
 
 type MappedProps = {
@@ -80,6 +82,7 @@ class Canvas extends React.Component<Props, State> {
           onMouseEnterPixel={onMouseEnterPixel}
           onMouseUp={onMouseUp}
           palette={activePalette}
+          size={this.props.size}
         />
       </div>
     )
