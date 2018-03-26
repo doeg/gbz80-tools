@@ -15,7 +15,7 @@ import {
   setActiveTile,
 } from '../actions'
 import * as factory from '../factory'
-import type { AppState, Palette, TileObj, UUID } from '../types'
+import type { AppState, Palette, Tile as TileObj, UUID } from '../types'
 
 type MappedProps = {
   activePalette: Palette,

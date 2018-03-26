@@ -4,16 +4,11 @@ import cx from 'classnames'
 import * as React from 'react'
 
 import style from './grid.css'
-import type {
-  Coords,
-  Palette,
-  Pixel,
-  PixelGrid as PixelGridType,
-} from '../types'
+import type { Coords, Palette, Pixel } from '../types'
 
 type Props = {
   className?: string,
-  grid: PixelGridType,
+  grid: Object[][],
   onClickPixel?: (c: Coords, p: Pixel) => any,
   onMouseEnterPixel?: (c: Coords, p: Pixel) => any,
   palette: Palette,
@@ -71,13 +66,6 @@ class Grid extends React.Component<Props> {
       </table>
     )
   }
-}
-
-Grid.defaultProps = {
-  className: '',
-  onClickPixel: () => {},
-  onMouseEnterPixel: () => {},
-  size: 4,
 }
 
 export default Grid
