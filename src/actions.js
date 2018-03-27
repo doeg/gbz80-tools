@@ -13,6 +13,7 @@ import type {
   TileMapTileClearedAction,
   TileMapCreatedAction,
   TileMapTileSetAction,
+  Tool,
   UUID,
 } from './types'
 
@@ -92,4 +93,9 @@ export const clearMapTile = (opts: {
 }): TileMapTileClearedAction => ({
   payload: opts,
   type: 'TILE_MAP_TILE_CLEARED',
+})
+
+export const setActiveTool = (tool: Tool): Object => ({
+  payload: { tool },
+  type: 'ACTIVE_TOOL_SET',
 })

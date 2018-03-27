@@ -43,6 +43,8 @@ const rootReducer = (state: AppState = initialState, action: Action) => {
       return setActiveColor(state, action)
     case 'ACTIVE_TILE_SET':
       return setActiveTile(state, action)
+    case 'ACTIVE_TOOL_SET':
+      return update(state, { activeTool: { $set: action.payload.tool } })
     case 'PANEL_UPDATED':
       return updatePanel(state, action)
     case 'TILE_CLEARED':
