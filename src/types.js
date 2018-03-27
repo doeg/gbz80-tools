@@ -120,3 +120,10 @@ export type TileMap = {
   // A grid of tile IDs
   tiles: Array<Array<?UUID>>,
 }
+
+export const tools = {
+  cursor: 'cursor',
+  pencil: 'pencil',
+}
+
+export type Tool = 'cursor' | 'pencil'

@@ -1,0 +1,19 @@
+.tools {
+  padding: 0 4px;
+}
+
+.tools button {
+  margin: 4px 0;
+  width: 100%;
+
+  &:hover {
+    color: fuchsia;
+  }
+}
+
+.pencil {
+  cursor: crosshair;
+}
+.cursor {
+  cursor: default;
+}
