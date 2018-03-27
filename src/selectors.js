@@ -1,5 +1,5 @@
 // @flow
-import type { AppState, Palette, Tile, TileMap, UUID } from './types'
+import type { AppState, Palette, Tile, TileMap, Tool, UUID } from './types'
 
 export const getActiveTileID = ({ activeTile }: AppState): ?UUID => activeTile
 
@@ -18,3 +18,5 @@ export const getTile = (state: AppState, id: UUID): ?Tile =>
 
 export const getActivePalette = (state: AppState): ?Palette =>
   state.activePalette
+
+export const getActiveTool = (state: AppState): Tool => state.activeTool

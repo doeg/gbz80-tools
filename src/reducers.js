@@ -3,6 +3,7 @@ import array2D from 'array2d'
 import update from 'immutability-helper'
 
 import * as factory from './factory'
+import { tools } from './types'
 import type {
   Action,
   ActiveColorSetAction,
@@ -23,6 +24,7 @@ const makeDefaultState = (): AppState => {
     activeColor: 3,
     activePalette: ['#FFFFFF', '#AAA', '#666', '#000000'],
     activeTile: defaultTile.id,
+    activeTool: tools.cursor,
     panels: {
       TilePanel: { top: 0, left: 80 },
       ToolPanel: { top: 0, left: 0 },

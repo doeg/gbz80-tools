@@ -2,7 +2,7 @@
   padding: 0 4px;
 }
 
-.tools button {
+.tool {
   margin: 4px 0;
   width: 100%;
 
@@ -11,9 +11,13 @@
   }
 }
 
-.pencil {
+.active.tool {
+  font-weight: bold;
+}
+
+.pencil.tool {
   cursor: crosshair;
 }
-.cursor {
+.cursor.tool {
   cursor: default;
 }
