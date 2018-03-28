@@ -42,7 +42,7 @@ class ToolPanel extends React.Component<Props> {
     document.removeEventListener('keydown', this.handleHotkey)
   }
 
-  handleHotkey(e) {
+  handleHotkey(e: Event) {
     const key = keycode(e)
     if (key in KEYMAP) {
       this.props.setActiveTool(KEYMAP[key])
@@ -71,7 +71,9 @@ class ToolPanel extends React.Component<Props> {
 
     return (
       <Panel height={200} id="ToolPanel" title="Tools" width={80}>
-        <div className={style.tools}>{Object.keys(tools).map(renderTool)}</div>
+        <div className={style.tools}>
+          {Object.values(tools).map(tool => renderTool(((tool: any): Tool)))}
+        </div>
       </Panel>
     )
   }
