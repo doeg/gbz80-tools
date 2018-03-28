@@ -5,24 +5,22 @@ import { connect } from 'react-redux'
 
 import style from './tileMapCanvas.css'
 import Tile from './Tile'
-import { setMapTile, clearMapTile } from '../actions'
-import {
-  getActivePalette,
-  getActiveTileMap,
-  getActiveTile,
-  getTiles,
-} from '../selectors'
+import { setActiveTile, setMapTile, clearMapTile } from '../actions'
+import * as select from '../selectors'
+import { tools } from '../types'
 import type {
   AppState,
   Coords,
   Palette,
   Tile as TileObj,
   TileMap,
+  Tool,
 } from '../types'
 
 type MappedProps = {
   activePalette: ?Palette,
   activeTile: ?TileObj,
+  activeTool: ?Tool,
   tileMap: ?TileMap,
   tiles: TileObj[],
 }
@@ -30,6 +28,7 @@ type MappedProps = {
 type DispatchProps = {
   setMapTile: Function,
   clearMapTile: Function,
+  setActiveTile: Function,
 }
 
 type State = {
@@ -52,24 +51,31 @@ class TileMapCanvas extends React.Component<Props, State> {
   }
 
   onClickCell(rowIdx: number, colIdx: number, e: Event) {
-    const { activeTile, tileMap } = this.props
+    const { activeTile, activeTool, tileMap } = this.props
     if (!activeTile || !tileMap) {
       return
     }
 
     const coords = { x: colIdx, y: rowIdx }
 
-    if (e.shiftKey) {
-      this.props.clearMapTile({
-        tileMapID: tileMap.id,
-        coords,
-      })
-    } else {
-      this.props.setMapTile({
-        tileMapID: tileMap.id,
-        coords,
-        tileID: activeTile.id,
-      })
+    if (activeTool === tools.cursor) {
+      const clickedTile = tileMap.tiles[rowIdx][colIdx]
+      if (clickedTile) {
+        this.props.setActiveTile(clickedTile)
+      }
+    } else if (activeTool === tools.pencil) {
+      if (e.shiftKey) {
+        this.props.clearMapTile({
+          tileMapID: tileMap.id,
+          coords,
+        })
+      } else {
+        this.props.setMapTile({
+          tileMapID: tileMap.id,
+          coords,
+          tileID: activeTile.id,
+        })
+      }
     }
   }
 
@@ -144,15 +150,17 @@ class TileMapCanvas extends React.Component<Props, State> {
 }
 
 const mapState = (state: AppState): MappedProps => ({
-  activePalette: getActivePalette(state),
-  activeTile: getActiveTile(state),
-  tileMap: getActiveTileMap(state),
-  tiles: getTiles(state),
+  activePalette: select.getActivePalette(state),
+  activeTile: select.getActiveTile(state),
+  activeTool: select.getActiveTool(state),
+  tileMap: select.getActiveTileMap(state),
+  tiles: select.getTiles(state),
 })
 
 const mapDispatch: DispatchProps = {
   setMapTile,
   clearMapTile,
+  setActiveTile,
 }
 
 export default connect(mapState, mapDispatch)(TileMapCanvas)
