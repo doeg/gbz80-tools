@@ -58,7 +58,6 @@ class Canvas extends React.Component<Props, State> {
   updatePixel({ x, y }: Coords) {
     const { activeColor, activeTool, editable } = this.props
     const drawable = activeTool === tools.pencil || activeTool === tools.eraser
-    console.log(activeTool, drawable)
 
     if (!editable || !drawable) {
       return
