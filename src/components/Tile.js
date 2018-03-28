@@ -8,7 +8,16 @@ import style from './tile.css'
 import Grid from './Grid'
 import { updateTile } from '../actions'
 import * as select from '../selectors'
-import type { AppState, Color, Coords, Palette, Tile, UUID } from '../types'
+import { tools } from '../types'
+import type {
+  AppState,
+  Color,
+  Coords,
+  Palette,
+  Tile,
+  Tool,
+  UUID,
+} from '../types'
 
 type OwnProps = {
   editable?: boolean,
@@ -21,6 +30,7 @@ type OwnProps = {
 type MappedProps = {
   activeColor: Color,
   activePalette: Palette,
+  activeTool: Tool,
   tile: Tile,
 }
 
@@ -46,21 +56,31 @@ class Canvas extends React.Component<Props, State> {
   }
 
   updatePixel({ x, y }: Coords) {
-    const { activeColor, editable } = this.props
-    if (!editable) {
+    const { activeColor, activeTool, editable } = this.props
+    const drawable = activeTool === tools.pencil || activeTool === tools.eraser
+    console.log(activeTool, drawable)
+
+    if (!editable || !drawable) {
       return
     }
 
+    const color = activeTool === tools.pencil ? activeColor : null
     const tile = cloneDeep(this.props.tile)
     tile.grid[y][x] = {
       ...tile.grid[y][x],
-      color: activeColor,
+      color,
     }
     this.props.updateTile(tile)
   }
 
   render() {
-    const { activePalette, showBorders, tile } = this.props
+    const {
+      activePalette,
+      activeTool,
+      editable,
+      showBorders,
+      tile,
+    } = this.props
 
     if (!tile) {
       return null
@@ -74,8 +94,11 @@ class Canvas extends React.Component<Props, State> {
       }
     }
 
+    const drawable = activeTool === tools.pencil || activeTool === tools.eraser
+
     const gridClass = cx(style.canvas, {
       [style.showBorders]: showBorders,
+      [style.pencil]: editable && drawable,
     })
 
     return (
@@ -98,6 +121,7 @@ class Canvas extends React.Component<Props, State> {
 const mapState = (state: AppState, { id }: OwnProps) => ({
   activeColor: state.activeColor,
   activePalette: state.activePalette,
+  activeTool: select.getActiveTool(state),
   tile: select.getTile(state, id),
 })
 

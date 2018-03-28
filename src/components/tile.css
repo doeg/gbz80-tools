@@ -8,10 +8,13 @@
 }
 
 .canvas td {
-  cursor: crosshair;
   height: var(--pixelSize);
   text-align: center;
   width: var(--pixelSize);
+}
+
+.pencil.canvas td {
+  cursor: crosshair;
 }
 
 .canvas.showBorders td {

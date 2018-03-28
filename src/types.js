@@ -125,6 +125,7 @@ export type TileMap = {
 export const tools = {
   cursor: 'cursor',
   pencil: 'pencil',
+  eraser: 'eraser',
 }
 
 export type Tool = 'cursor' | 'pencil'
